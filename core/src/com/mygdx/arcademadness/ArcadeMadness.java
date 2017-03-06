@@ -126,7 +126,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
     }
 
     /**
-     * Checks if the tile at the given coordinates is free to enter; not a wall
+     * Checks if the tile at the given coordinates is free to enter
      *
      * @param x the x coordinate of the tile
      * @param y the y coordinate of the tile
@@ -157,7 +157,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         int indexY = (int) (y / TILE_SIZE_IN_PIXELS);
 
         if(isFree(x, y)) {
-            arrowList.add(new Arrow(direction, indexX * 16, indexY * 16));
+            arrowList.add(new Arrow(direction, indexX * TILE_SIZE_IN_PIXELS, indexY * TILE_SIZE_IN_PIXELS));
         }
         if(arrowList.size() > arrowAmount) {
             arrowList.remove(0);
