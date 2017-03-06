@@ -170,7 +170,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
     public void addCharacters() {
         characterList = new ArrayList<Character>();
         characterList.add(new Monster(16, worldHeight / 2 - 8, this, "right"));
-        characterList.add(new Woman(worldWidth / 2 - 8, 16, this, "up"));
+        characterList.add(new Boy(worldWidth / 2 - 8, 16, this, "up"));
         characterList.add(new Woman(worldWidth / 2 - 8, worldHeight - 16, this, "down"));
         characterList.add(new Woman(worldWidth - 16, worldHeight / 2 - 8, this, "left"));
     }

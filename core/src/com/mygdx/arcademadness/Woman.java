@@ -19,9 +19,9 @@ public class Woman extends Character {
         setSpeed(1/2f);
         setDirection(direction);
 
-        textureLeft = new Texture("woman_left.png");
-        textureRight = new Texture("woman_right.png");
-        textureDown = new Texture("woman_front.png");
-        textureUp = new Texture("woman_back.png");
+        textureLeft = new Texture("adult_left.png");
+        textureRight = new Texture("adult_right.png");
+        textureDown = new Texture("adult_front.png");
+        textureUp = new Texture("adult_back.png");
     }
 }
