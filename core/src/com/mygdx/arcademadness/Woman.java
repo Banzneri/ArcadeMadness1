@@ -9,9 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
  * Created by Banzneri on 21/02/2017.
  */
 
-/**
- *
- */
 public class Woman extends Character {
 
     public Woman(float x, float y, ArcadeMadness host, String direction) {
