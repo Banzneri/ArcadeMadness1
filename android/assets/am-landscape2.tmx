@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="15" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="15" tilewidth="16" tileheight="16" nextobjectid="39">
  <tileset firstgid="1" name="tileset_gutter" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="924" columns="33">
   <image source="tileset_gutter.png" width="594" height="504"/>
  </tileset>
@@ -10,7 +10,13 @@
  </layer>
  <layer name="Graphics" width="25" height="15">
   <data encoding="base64" compression="zlib">
-   eJx7xMDA8AiK3aiI5yLhR0iYmoDedpxCk2OBYkrZMHBqgOygNhgof4yG1fAPqwdImJrgPhKmtx3ULHeR7QAAsSg25w==
+   eJytlNEJgDAMRCv0zy06jJO4nB8u4iSOIQULR0hyV+jB/aQxL2nUVkppvw/Bl5h3ght4pVRG/R2pJjnI2DetLsYzrtUjMKoTZzHGsIpmUrgRwz6X1WO9DMYdnHk1ZvYw1Ourc3g5GXfE2T7s7tkc3n0q+1CUza28uxFb7aUz8HtkvbK7R71glTGriLHyv4uMDy/jJKs=
   </data>
  </layer>
+ <objectgroup name="Rooms">
+  <object id="22" x="346.5" y="0.5" width="52.5" height="53.5"/>
+  <object id="30" x="346.5" y="186" width="52.5" height="53"/>
+  <object id="37" x="1" y="188" width="50" height="50"/>
+  <object id="38" x="0.5" y="-0.5" width="51" height="53"/>
+ </objectgroup>
 </map>

@@ -60,9 +60,10 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
 
         arrowList = new ArrayList<Arrow>();
         entranceList = new ArrayList<Entrance>();
+        characterList = new ArrayList<Character>();
 
-        addCharacters();
         addEntrances();
+        //addCharacters();
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("am-landscape2.tmx");
@@ -81,6 +82,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         renderer.setView(camera);
         batch.setProjectionMatrix(camera.combined);
 
+        removeCharacters();
         spawnCharacter();
         moveAll();
 
@@ -173,7 +175,6 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
      * Adds all the characters to the Character list
      */
     public void addCharacters() {
-        characterList = new ArrayList<Character>();
         characterList.add(new Monster(16, worldHeight / 2 - 8, this, "right"));
         characterList.add(new Boy(worldWidth / 2 - 8, 16, this, "up"));
         characterList.add(new Woman(worldWidth / 2 - 8, worldHeight - 16, this, "down"));
@@ -207,6 +208,18 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
                 characterList.add(monster);
             }
         }
+    }
+
+    public void removeCharacters() {
+        ArrayList<Character> removeCharacter = new ArrayList<Character>();
+
+        for(Character character : characterList) {
+            if(character.isInRoom()) {
+                removeCharacter.add(character);
+            }
+        }
+        
+        characterList.removeAll(removeCharacter);
     }
 
     /**

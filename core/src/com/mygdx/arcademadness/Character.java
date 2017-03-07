@@ -3,7 +3,13 @@ package com.mygdx.arcademadness;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by Banzneri on 21/02/2017.
@@ -24,6 +30,7 @@ public abstract class Character {
     Rectangle rect;
 
     String direction;
+    Boolean isInRoom = false;
 
     float speed = 1f;
     float speedX;
@@ -53,6 +60,10 @@ public abstract class Character {
         return speedY;
     }
 
+    public boolean isInRoom() {
+        return isInRoom;
+    }
+
     public void setSpeed(float speed) {
         this.speed = speed;
     }
@@ -70,6 +81,7 @@ public abstract class Character {
     }
 
     public void move() {
+        checkGameRoomCollision();
         float x = rect.getX() + speedX;
         float y = rect.getY() + speedY;
 
@@ -185,6 +197,17 @@ public abstract class Character {
                 setDirection(getOpposite(direction));
                 rect.setPosition(rect.getX() + speedX, rect.getY() + speedY);
                 collisionCooldownTimer = 0;
+            }
+        }
+    }
+
+    public void checkGameRoomCollision() {
+        MapLayer layer = host.getMap().getLayers().get("Rooms");
+        MapObjects rooms = layer.getObjects();
+        Array<RectangleMapObject> roomRectangleObjects = rooms.getByType(RectangleMapObject.class);
+        for(RectangleMapObject object : roomRectangleObjects) {
+            if(object.getRectangle().overlaps(getRect())) {
+                isInRoom = true;
             }
         }
     }
