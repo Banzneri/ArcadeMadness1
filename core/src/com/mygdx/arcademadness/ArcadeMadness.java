@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -38,6 +39,9 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
     private float arrowY;
     private float arrowAmount = 4;
     private Arrow helperArrow;
+
+    private float characterSpawnTimer = 0;
+    private float spawnInterval = 5;
 
     private ArrayList<Arrow> arrowList;
     private ArrayList<Entrance> entranceList;
@@ -77,6 +81,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         renderer.setView(camera);
         batch.setProjectionMatrix(camera.combined);
 
+        spawnCharacter();
         moveAll();
 
 		batch.begin();
@@ -175,11 +180,43 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         characterList.add(new Woman(worldWidth - 16, worldHeight / 2 - 8, this, "left"));
     }
 
+    public void spawnCharacter() {
+        characterSpawnTimer += Gdx.graphics.getDeltaTime();
+        if(characterSpawnTimer > spawnInterval) {
+            int rand = MathUtils.random(0, entranceList.size()-1);
+            spawnRandomCharacter(entranceList.get(rand));
+            characterSpawnTimer = 0;
+        }
+    }
+
+    public void spawnRandomCharacter(Entrance entrance) {
+        if(entrance.isFree()) {
+            float x = entrance.getX();
+            float y = entrance.getY();
+
+            int rand = MathUtils.random(3);
+
+            if (rand == 0) {
+                Woman woman = new Woman(x, y, this, entrance.getDirection());
+                characterList.add(woman);
+            } else if (rand == 1) {
+                Boy boy = new Boy(x, y, this, entrance.getDirection());
+                characterList.add(boy);
+            } else if (rand == 2) {
+                Monster monster = new Monster(x, y, this, entrance.getDirection());
+                characterList.add(monster);
+            }
+        }
+    }
+
     /**
      * Adds the entrance objects to the Entrance list
      */
     public void addEntrances() {
-        entranceList.add(new Entrance(worldWidth / 2 - 8, worldHeight - 16));
+        entranceList.add(new Entrance(16, worldHeight / 2 - 8, this, "right"));
+        entranceList.add(new Entrance(worldWidth / 2 - 8, 16, this, "up"));
+        entranceList.add(new Entrance(worldWidth / 2 - 8, worldHeight - 16, this, "down"));
+        entranceList.add(new Entrance(worldWidth - 16, worldHeight / 2 - 8, this, "left"));
     }
 
     /**
