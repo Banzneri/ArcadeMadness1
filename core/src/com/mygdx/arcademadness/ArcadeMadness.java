@@ -353,6 +353,25 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
+        Vector3 touchPos = new Vector3(x, y, 0);
+
+        camera.unproject(touchPos);
+
+        int indexX = (int) (arrowX / TILE_SIZE_IN_PIXELS);
+        int indexY = (int) (arrowY / TILE_SIZE_IN_PIXELS);
+
+        float mx = indexX * TILE_SIZE_IN_PIXELS;
+        float my = indexY * TILE_SIZE_IN_PIXELS;
+
+        for(Arrow arrow : arrowList) {
+            if(mx == arrow.getX() && my == arrow.getY()) {
+                arrowList.remove(arrow);
+                break;
+            }
+        }
+
+        Gdx.app.log("", Float.toString(mx) + "X " + Float.toString(my) + "Y");
+
         return false;
     }
 
