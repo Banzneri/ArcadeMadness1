@@ -10,7 +10,7 @@ public class Woman extends Character {
 
     public Woman(float x, float y, ArcadeMadness host, String direction) {
         super(x, y, host);
-        setSpeed(1/2f);
+        setSpeed(1/4f);
         setDirection(direction);
 
         textureLeft = new Texture("adult_left.png");

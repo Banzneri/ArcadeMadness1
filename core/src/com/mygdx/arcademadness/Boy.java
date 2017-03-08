@@ -10,7 +10,7 @@ public class Boy extends Character {
 
     public Boy(float x, float y, ArcadeMadness host, String direction) {
         super(x, y, host);
-        setSpeed(1f);
+        setSpeed(1/2f);
         setDirection(direction);
 
         textureLeft = new Texture("jonne_left.png");
