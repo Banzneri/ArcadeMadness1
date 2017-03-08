@@ -309,7 +309,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
 
 
     /**
-     * Draws the stretching helper arrow
+     * Draws the stretching helper arrow. This should probably go to the Arrow class.
      */
     public void drawStretchArrow() {
         if(Gdx.input.isTouched()) {
