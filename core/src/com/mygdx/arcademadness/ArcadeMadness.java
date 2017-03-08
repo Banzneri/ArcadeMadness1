@@ -364,6 +364,35 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         }
     }
 
+    public void removeAllArrows() {
+        ArrayList<Arrow> toRemove = new ArrayList<Arrow>();
+
+        for(Arrow arrow : arrowList) {
+            toRemove.add(arrow);
+        }
+
+        arrowList.removeAll(toRemove);
+    }
+
+    public void removeArrow(float x, float y) {
+        Vector3 touchPos = new Vector3(x, y, 0);
+
+        camera.unproject(touchPos);
+
+        int indexX = (int) (arrowX / TILE_SIZE_IN_PIXELS);
+        int indexY = (int) (arrowY / TILE_SIZE_IN_PIXELS);
+
+        float mx = indexX * TILE_SIZE_IN_PIXELS;
+        float my = indexY * TILE_SIZE_IN_PIXELS;
+
+        for (Arrow arrow : arrowList) {
+            if (mx == arrow.getX() && my == arrow.getY()) {
+                arrowList.remove(arrow);
+                break;
+            }
+        }
+    }
+
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
 
@@ -384,24 +413,12 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        Vector3 touchPos = new Vector3(x, y, 0);
 
-        camera.unproject(touchPos);
-
-        int indexX = (int) (arrowX / TILE_SIZE_IN_PIXELS);
-        int indexY = (int) (arrowY / TILE_SIZE_IN_PIXELS);
-
-        float mx = indexX * TILE_SIZE_IN_PIXELS;
-        float my = indexY * TILE_SIZE_IN_PIXELS;
-
-        for(Arrow arrow : arrowList) {
-            if(mx == arrow.getX() && my == arrow.getY()) {
-                arrowList.remove(arrow);
-                break;
-            }
+        if(count == 2) {
+            removeAllArrows();
+        } else {
+            removeArrow(x, y);
         }
-
-        Gdx.app.log("", Float.toString(mx) + "X " + Float.toString(my) + "Y");
 
         return false;
     }
