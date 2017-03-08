@@ -2,10 +2,14 @@ package com.mygdx.arcademadness;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -30,10 +34,14 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
 
     private SpriteBatch batch;
 	private OrthographicCamera camera;
+
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private TmxMapLoader mapLoader;
+
     private Texture logoTexture;
+    private TextureRegion menuArrow;
+    private BitmapFont font;
 
     private float arrowX;
     private float arrowY;
@@ -55,6 +63,9 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         camera.position.set(worldWidth / 2, worldHeight / 2, 0);
 
         logoTexture = new Texture("am.png");
+        Texture arrowSheet = new Texture("arrows.png");
+        menuArrow = new TextureRegion(arrowSheet, 0, 32, 32, 32);
+        createFont();
 
         helperArrow = new Arrow("up", 0, 0);
 
@@ -90,6 +101,25 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         drawAll();
 		batch.end();
 	}
+
+    public void createFont() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 14;
+        parameter.color = Color.BLACK;
+        font = generator.generateFont(parameter);
+    }
+
+    public void drawMenu() {
+        float startingXPosition = 4 * TILE_SIZE_IN_PIXELS;
+        for(int i = 1; i <= arrowAmount - arrowList.size(); i++) {
+            if(i == 1) {
+                batch.draw(menuArrow, startingXPosition, 0, 14, 14);
+            } else {
+                batch.draw(menuArrow, startingXPosition - TILE_SIZE_IN_PIXELS + i * TILE_SIZE_IN_PIXELS, 0, 14, 14);
+            }
+        }
+    }
 	
 	@Override
 	public void dispose () {
@@ -274,6 +304,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         }
 
         batch.draw(logoTexture, 0, worldHeight + 20, worldWidth, logoTexture.getHeight());
+        drawMenu();
     }
 
 

@@ -4,10 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -98,7 +96,7 @@ public abstract class Character {
         } else {
             turnRight();
         }
-        checkCollision();
+        checkCharacterCollision();
 
         if(rect.getX() > ArcadeMadness.worldWidth - ArcadeMadness.TILE_SIZE_IN_PIXELS) {
             rect.setX(ArcadeMadness.worldWidth - ArcadeMadness.TILE_SIZE_IN_PIXELS);
@@ -190,11 +188,11 @@ public abstract class Character {
         }
     }
 
-    public void checkCollision() {
+    public void checkCharacterCollision() {
         collisionCooldownTimer += Gdx.graphics.getDeltaTime();
         for(Character character : host.getCharacterList()) {
             if(character != this && rect.overlaps(character.getRect()) && collisionCooldownTimer > collisionCooldown) {
-                setDirection(getOpposite(direction));
+                setDirection(getOppositeDirection(direction));
                 rect.setPosition(rect.getX() + speedX, rect.getY() + speedY);
                 collisionCooldownTimer = 0;
             }
@@ -212,7 +210,7 @@ public abstract class Character {
         }
     }
 
-    public String getOpposite(String direction) {
+    public String getOppositeDirection(String direction) {
         if(direction.equals("down")) {
             return "up";
         } else if(direction.equals("up")) {
