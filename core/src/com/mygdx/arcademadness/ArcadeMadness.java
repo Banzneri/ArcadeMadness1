@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -40,6 +41,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
     private TmxMapLoader mapLoader;
 
     private Texture logoTexture;
+    private Sprite lightTexture;
     private TextureRegion menuArrow;
     private BitmapFont font;
 
@@ -49,7 +51,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
     private Arrow helperArrow;
 
     private float characterSpawnTimer = 0;
-    private float spawnInterval = 5;
+    private float spawnInterval = 1;
 
     private ArrayList<Arrow> arrowList;
     private ArrayList<Entrance> entranceList;
@@ -63,6 +65,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
         camera.position.set(worldWidth / 2, worldHeight / 2, 0);
 
         logoTexture = new Texture("am.png");
+        lightTexture = new Sprite(new Texture("light4.png"));
         Texture arrowSheet = new Texture("arrows.png");
         menuArrow = new TextureRegion(arrowSheet, 0, 32, 32, 32);
         createFont();
@@ -100,6 +103,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
 		batch.begin();
         drawAll();
 		batch.end();
+        Gdx.app.log("fps", Float.toString(Gdx.graphics.getFramesPerSecond()));
 	}
 
     public void createFont() {
@@ -119,6 +123,14 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
                 batch.draw(menuArrow, startingXPosition - TILE_SIZE_IN_PIXELS + i * TILE_SIZE_IN_PIXELS, 0, 14, 14);
             }
         }
+    }
+
+    public void drawLight() {
+        batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);
+        lightTexture.setPosition(0, worldHeight - 16);
+        lightTexture.setSize(16, 16);
+        lightTexture.draw(batch, 0.7f);
+        batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
     }
 	
 	@Override
@@ -305,6 +317,7 @@ public class ArcadeMadness extends ApplicationAdapter implements GestureDetector
 
         batch.draw(logoTexture, 0, worldHeight + 20, worldWidth, logoTexture.getHeight());
         drawMenu();
+        drawLight();
     }
 
 
