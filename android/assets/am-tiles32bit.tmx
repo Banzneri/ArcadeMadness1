@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="15" tilewidth="32" tileheight="32" nextobjectid="14">
+ <tileset firstgid="1" name="am-tiles32" tilewidth="32" tileheight="32" tilecount="52" columns="13">
+  <image source="am-tiles32.png" width="416" height="128"/>
+ </tileset>
+ <layer name="Floors" width="25" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzbcNgDAUAFFXlOQoTA4ix/1341ZA+qWL197ZSikHLixBCVJkyKFRCD96DBgxYcYi/Ljx4BXuGobxX4gIsXDXg48ADVp0wo8SFWocOHEJP1Zs2PEBSDAMhQ==
+  </data>
+ </layer>
+ <layer name="Graphics" width="25" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzFlOEKgCAMhPcn+mG+/+uG4Og6pl5h+cEImu28OTO72IXYxHWrOSAKqYbBO8wVcg3MIexrtob3Duswoxxr8HeRBvtAst3rRdrsnzVSoIH6LQ3uFdbzWezxtleOz7rqI8opPp6cR0uD1+De/pyr0V6xFj7V+8HM1ljBV//dE5evB1g=
+  </data>
+ </layer>
+ <objectgroup name="Rooms" visible="0">
+  <object id="7" x="710" y="1" width="87" height="88"/>
+  <object id="9" x="711" y="390" width="87" height="88"/>
+  <object id="11" x="0" y="391" width="86" height="88"/>
+  <object id="13" x="1" y="1" width="88" height="88"/>
+ </objectgroup>
+</map>

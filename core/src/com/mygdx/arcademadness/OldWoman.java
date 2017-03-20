@@ -11,6 +11,7 @@ public class OldWoman extends Character {
     public OldWoman(float x, float y, GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1/4f);
+        setAge(80f);
         setDirection(direction);
 
         textureLeft = new Texture("granny_left.png");

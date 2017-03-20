@@ -28,8 +28,8 @@ import java.util.ArrayList;
  */
 public class ArcadeMadness extends Game {
     public static final float TILE_SIZE_IN_PIXELS = 32;
-    public static final float TILES_AMOUNT_WIDTH = 25;
-    public static final float TILES_AMOUNT_HEIGHT = 15;
+    public static final float TILES_AMOUNT_WIDTH = 21;
+    public static final float TILES_AMOUNT_HEIGHT = 13;
 
     public static float worldWidth = TILE_SIZE_IN_PIXELS * TILES_AMOUNT_WIDTH;
     public static float worldHeight = TILE_SIZE_IN_PIXELS * TILES_AMOUNT_HEIGHT;

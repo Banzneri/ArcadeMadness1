@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -103,7 +104,7 @@ public abstract class Character {
         } else if(direction.equals("down") && (downLeft & downRight)) {
             rect.setPosition(x, y);
         } else {
-            turnRight();
+            makeATurn();
         }
         checkCharacterCollision();
 
@@ -133,6 +134,28 @@ public abstract class Character {
             setDirectionDown();
         }
 
+    }
+
+    public void turnLeft() {
+        if(direction.equals("down")) {
+            setDirectionRight();
+        } else if(direction.equals("up")) {
+            setDirectionLeft();
+        } else if(direction.equals("left")) {
+            setDirectionDown();
+        } else {
+            setDirectionUp();
+        }
+    }
+
+    public void makeATurn() {
+        int rand = MathUtils.random(0, 1);
+
+        if(rand == 0) {
+            turnRight();
+        } else {
+            turnLeft();
+        }
     }
 
     public void setDirectionLeft() {

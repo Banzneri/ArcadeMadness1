@@ -13,15 +13,7 @@ public class Boy extends Character {
         super(x, y, host);
         setSpeed(1f);
         setDirection(direction);
-        // setRandomTexture();
-
-        textureLeft = new Texture("jonne_left.png");
-        textureRight = new Texture("jonne_right.png");
-        textureDown = new Texture("jonne_front.png");
-        textureUp = new Texture("jonne_back.png");
-
-        int rand = MathUtils.random(2);
-
+        setRandomTexture();
     }
 
     public void setRandomTexture() {
@@ -32,12 +24,10 @@ public class Boy extends Character {
             textureRight = new Texture("jonne_right.png");
             textureDown = new Texture("jonne_front.png");
             textureUp = new Texture("jonne_back.png");
-        }
-
-        if(rand == 1) {
+        } else {
             textureLeft = new Texture("jonna_left.png");
             textureRight = new Texture("jonna_right.png");
-            textureDown = new Texture("jonna_front.png");
+            textureDown = new Texture("jonne_front.png");
             textureUp = new Texture("jonna_back.png");
         }
     }

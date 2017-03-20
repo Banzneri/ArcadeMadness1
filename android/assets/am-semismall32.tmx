@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="21" height="13" tilewidth="32" tileheight="32" nextobjectid="7">
+ <tileset firstgid="1" name="am-tiles32" tilewidth="32" tileheight="32" tilecount="52" columns="13">
+  <image source="am-tiles32.png" width="416" height="128"/>
+ </tileset>
+ <layer name="Floors" width="21" height="13">
+  <data encoding="base64" compression="zlib">
+   eJxjYKANYKMiHjVz1MxRM6lnJrUBAIEyBOc=
+  </data>
+ </layer>
+ <layer name="Graphics" width="21" height="13">
+  <data encoding="base64" compression="zlib">
+   eJzjYGBg4CACsxKpDoTZGagL2HGYyQnFxLJJNZMYcVxmkmoOLjfjMpMSNsg8VjLdhguw4nAnqebTw++0jHdceqmVPikBIPOIzcOk5HcAG2MERQ==
+  </data>
+ </layer>
+ <objectgroup name="Rooms">
+  <object id="2" x="581" y="1" width="89" height="90"/>
+  <object id="3" x="581" y="322" width="90" height="94"/>
+  <object id="4" x="1" y="321" width="89" height="96"/>
+  <object id="5" x="1" y="1" width="88" height="91"/>
+  <object id="6" x="791" y="106"/>
+ </objectgroup>
+ <layer name="Rooms" width="21" height="13">
+  <data encoding="base64" compression="zlib">
+   eJztzLUNwFAQwNCbIIwKo8K4/25xmf7ab+m1tkTEhiO6YiRIkSFHoXz2GDBiwoxF+bzx4FV+TKZ/AUJEyo8LDz4atOiUzxIVahw4cSmfKzbs+ABe+wST
+  </data>
+ </layer>
+</map>
