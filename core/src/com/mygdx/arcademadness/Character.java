@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.Array;
 public abstract class Character {
     boolean upLeft, upRight, downRight, downLeft;
 
-    ArcadeMadness host;
+    GameScreen host;
 
     Texture textureRight;
     Texture textureLeft;
@@ -28,6 +28,7 @@ public abstract class Character {
     Rectangle rect;
 
     String direction;
+    float age;
     Boolean isInRoom = false;
 
     float speed = 1f;
@@ -37,10 +38,10 @@ public abstract class Character {
     float collisionCooldownTimer = 0;
     float collisionCooldown = 0f;
 
-    float widthInPixels = 15f;
-    float heightInPixels = 15f;
+    float widthInPixels = 31f;
+    float heightInPixels = 31f;
 
-    public Character(float x, float y, ArcadeMadness host) {
+    public Character(float x, float y, GameScreen host) {
         this.host = host;
 
         rect = new Rectangle(x, y, widthInPixels, heightInPixels);
@@ -64,6 +65,14 @@ public abstract class Character {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public float getAge() {
+        return age;
+    }
+
+    public void setAge(float age) {
+        this.age = age;
     }
 
     public void draw(SpriteBatch batch) {

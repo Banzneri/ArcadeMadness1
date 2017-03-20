@@ -29,7 +29,7 @@ public class Arrow {
         rect = new Rectangle(this.x, this.y, width, height);
         this.direction = direction;
 
-        Texture arrowSheet = new Texture("arrows.png");
+        Texture arrowSheet = new Texture("arrows-gold-big.png");
 
         downArrowTexture = new TextureRegion(arrowSheet, 0, 0, 32, 32);
         rightArrowTexture = new TextureRegion(arrowSheet, 32, 0, 32, 32);

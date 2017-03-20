@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Woman extends Character {
 
-    public Woman(float x, float y, ArcadeMadness host, String direction) {
+    public Woman(float x, float y, GameScreen host, String direction) {
         super(x, y, host);
-        setSpeed(1/4f);
+        setSpeed(1/2f);
         setDirection(direction);
 
         textureLeft = new Texture("adult_left.png");

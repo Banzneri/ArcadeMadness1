@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Monster extends Character {
 
-    public Monster(float x, float y, ArcadeMadness host, String direction) {
+    public Monster(float x, float y, GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1/2f);
         setDirection(direction);

@@ -11,11 +11,11 @@ public class Entrance {
     private float y;
     private String direction;
     private Rectangle rect;
-    private ArcadeMadness host;
+    private GameScreen host;
     private float width = ArcadeMadness.TILE_SIZE_IN_PIXELS;
     private float height = ArcadeMadness.TILE_SIZE_IN_PIXELS;
 
-    public Entrance(float x, float y, ArcadeMadness host, String direction) {
+    public Entrance(float x, float y, GameScreen host, String direction) {
         this.x = x;
         this.y = y;
         this.host = host;
