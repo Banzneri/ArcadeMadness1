@@ -5,12 +5,12 @@
  </tileset>
  <layer name="Floors" width="15" height="9">
   <data encoding="base64" compression="zlib">
-   eJzjYGBg4MCBWfHIgTA7ELORgdkHUC8rmXpZh6h/8cUfofgFAKLpA2s=
+   eJxjY2BgYBvFoxgLBgBe6QMr
   </data>
  </layer>
  <layer name="Graphics" width="15" height="9">
   <data encoding="base64" compression="zlib">
-   eJxjYKA+YEejaaGXnQi17FjUEjJvIOzFZxat9BIDAK0sAKI=
+   eJxjYMANWPHIYQPsBGhqA0L2YbOfVD9h00eOvdQE1LKPUFgAAKwcAKE=
   </data>
  </layer>
  <objectgroup name="Rooms">

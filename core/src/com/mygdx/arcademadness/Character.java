@@ -238,6 +238,11 @@ public abstract class Character {
         for(RectangleMapObject object : roomRectangleObjects) {
             if(object.getRectangle().overlaps(getRect())) {
                 isInRoom = true;
+                for(GameRoom gameRoom : host.getGameRoomList()) {
+                    if(gameRoom.getX() == object.getRectangle().getX() && gameRoom.getY() == object.getRectangle().getY()) {
+                        gameRoom.addCharacter();
+                    }
+                }
             }
         }
     }

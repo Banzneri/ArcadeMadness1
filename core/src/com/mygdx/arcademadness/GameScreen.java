@@ -12,12 +12,16 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
@@ -49,6 +53,7 @@ public abstract class GameScreen implements Screen {
     private ArrayList<Arrow> arrowList;
     private ArrayList<Entrance> entranceList;
     private ArrayList<Character> characterList;
+    private ArrayList<GameRoom> gameRoomList;
 
     private ArcadeMadness host;
     private MyInputProcessor myInputProcessor;
@@ -61,15 +66,17 @@ public abstract class GameScreen implements Screen {
         lightTexture = new Sprite(new Texture("light.png"));
         Texture arrowSheet = new Texture("arrows-gold-big.png");
         menuArrow = new TextureRegion(arrowSheet, 0, 32, 32, 32);
+        createFont();
 
         helperArrow = new Arrow("up", 0, 0);
 
         arrowList = new ArrayList<Arrow>();
         entranceList = new ArrayList<Entrance>();
         characterList = new ArrayList<Character>();
+        gameRoomList = new ArrayList<GameRoom>();
 
         addEntrances();
-        //addCharacters();
+        addGameRooms();
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapName);
@@ -178,6 +185,10 @@ public abstract class GameScreen implements Screen {
         return arrowList;
     }
 
+    public ArrayList<GameRoom> getGameRoomList() {
+        return gameRoomList;
+    }
+
     public float getArrowX() {
         return arrowX;
     }
@@ -192,6 +203,10 @@ public abstract class GameScreen implements Screen {
 
     public float getTouchDownY() {
         return touchDownY;
+    }
+
+    public BitmapFont getFont() {
+        return font;
     }
 
     public void setArrowX(float x) {
@@ -249,14 +264,14 @@ public abstract class GameScreen implements Screen {
         }
     }
 
-    /**
-     * Adds all the characters to the Character list
-     */
-    public void addCharacters() {
-        characterList.add(new Monster(16, ArcadeMadness.worldHeight / 2 - 8, this, "right"));
-        characterList.add(new Boy(ArcadeMadness.worldWidth / 2 - 8, 16, this, "up"));
-        characterList.add(new Woman(ArcadeMadness.worldWidth / 2 - 8, ArcadeMadness.worldHeight - 16, this, "down"));
-        characterList.add(new Woman(ArcadeMadness.worldWidth - 16, ArcadeMadness.worldHeight / 2 - 8, this, "left"));
+    public void addGameRooms() {
+        MapLayer layer = getMap().getLayers().get("Rooms");
+        MapObjects rooms = layer.getObjects();
+        Array<RectangleMapObject> roomRectangleObjects = rooms.getByType(RectangleMapObject.class);
+        for(RectangleMapObject object : roomRectangleObjects) {
+            gameRoomList.add(new GameRoom(object.getRectangle().getX(), object.getRectangle().getY(),
+                            object.getRectangle().getWidth(), object.getRectangle().getHeight(), this));
+        }
     }
 
     public void spawnCharacter() {
@@ -326,6 +341,12 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    public void drawNumberOfPeople() {
+        for(GameRoom gameRoom : gameRoomList) {
+            gameRoom.drawNumberOfPeople();
+        }
+    }
+
     /**
      * Checks if a tile contains an arrow, and if it does, sets its direction to the given parameter.
      * Used in the gesturelistener fling() method, to check for an arrow and set it in the same method
@@ -362,6 +383,7 @@ public abstract class GameScreen implements Screen {
         drawLight();
 
         drawStretchArrow();
+        drawNumberOfPeople();
     }
 
 
