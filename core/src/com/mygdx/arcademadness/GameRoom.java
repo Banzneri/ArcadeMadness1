@@ -5,7 +5,7 @@ package com.mygdx.arcademadness;
  */
 
 public class GameRoom {
-    private float numberOfPeople;
+    private int numberOfPeople;
     private float x;
     private float y;
     private float width;
@@ -16,6 +16,8 @@ public class GameRoom {
         this.x = x;
         this.y = y;
         this.host = host;
+        this.width = width;
+        this.height = height;
 
         numberOfPeople = 0;
     }
@@ -33,6 +35,6 @@ public class GameRoom {
     }
 
     public void drawNumberOfPeople() {
-        host.getFont().draw(host.getHost().getBatch(), Float.toString(numberOfPeople), x + width / 2, y + height / 2);
+        host.getFont().draw(host.getHost().getBatch(), Integer.toString(numberOfPeople), x + width / 2 - 8, y + height / 2 - 16);
     }
 }

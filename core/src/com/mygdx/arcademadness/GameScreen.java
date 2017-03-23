@@ -75,12 +75,12 @@ public abstract class GameScreen implements Screen {
         characterList = new ArrayList<Character>();
         gameRoomList = new ArrayList<GameRoom>();
 
-        addEntrances();
-        addGameRooms();
-
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(mapName);
         renderer = new OrthogonalTiledMapRenderer(map);
+
+        addEntrances();
+        addGameRooms();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         GestureDetector gestureDetector = new GestureDetector(new MyInputProcessor(this));
@@ -116,8 +116,8 @@ public abstract class GameScreen implements Screen {
     public void createFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 14;
-        parameter.color = Color.BLACK;
+        parameter.size = 20;
+        parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
     }
 
