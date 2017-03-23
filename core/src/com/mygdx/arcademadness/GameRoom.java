@@ -30,6 +30,10 @@ public class GameRoom {
         return y;
     }
 
+    public int getNumberOfPeople() {
+        return numberOfPeople;
+    }
+
     public void addCharacter() {
         numberOfPeople++;
     }

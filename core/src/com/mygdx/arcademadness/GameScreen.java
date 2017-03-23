@@ -93,6 +93,7 @@ public abstract class GameScreen implements Screen {
 
     @Override
     public void render (float dt) {
+        checkVictory();
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -110,7 +111,7 @@ public abstract class GameScreen implements Screen {
         host.getBatch().setColor(c.r, c.g, c.b, 1f); // set alpha to 1
         drawAll();
         host.getBatch().end();
-        Gdx.app.log("fps", Float.toString(Gdx.graphics.getFramesPerSecond()));
+        //Gdx.app.log("fps", Float.toString(Gdx.graphics.getFramesPerSecond()));
     }
 
     public void createFont() {
@@ -473,6 +474,24 @@ public abstract class GameScreen implements Screen {
                 arrowList.remove(arrow);
                 break;
             }
+        }
+    }
+
+    public boolean isWin() {
+        for(GameRoom gameRoom : gameRoomList) {
+            if(gameRoom.getNumberOfPeople() < 2) {
+                Gdx.app.log("", Float.toString(gameRoomList.size()));
+                return false;
+            }
+            Gdx.app.log("", "BLAA");
+        }
+
+        return true;
+    }
+
+    public void checkVictory() {
+        if(isWin()) {
+            Gdx.app.exit();
         }
     }
 }

@@ -10,7 +10,7 @@ public class OldWoman extends Character {
 
     public OldWoman(float x, float y, GameScreen host, String direction) {
         super(x, y, host);
-        setSpeed(1/4f);
+        setSpeed(2f);
         setAge(80f);
         setDirection(direction);
 
