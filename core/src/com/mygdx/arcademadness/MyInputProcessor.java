@@ -11,11 +11,11 @@ import com.badlogic.gdx.math.Vector3;
  */
 
 public class MyInputProcessor implements InputProcessor, GestureDetector.GestureListener {
-    GameScreen host;
+    com.mygdx.arcademadness.Screens.GameScreen host;
     private boolean isFling = false;
     private boolean isTouchDown = false;
 
-    public MyInputProcessor(GameScreen host) {
+    public MyInputProcessor(com.mygdx.arcademadness.Screens.GameScreen host) {
         this.host = host;
     }
 

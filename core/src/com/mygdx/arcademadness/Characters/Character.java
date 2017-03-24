@@ -1,4 +1,4 @@
-package com.mygdx.arcademadness;
+package com.mygdx.arcademadness.Characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +9,9 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.arcademadness.ArcadeMadness;
+import com.mygdx.arcademadness.GameObjects.Arrow;
+import com.mygdx.arcademadness.GameObjects.GameRoom;
 
 /**
  * Created by Banzneri on 21/02/2017.
@@ -20,7 +23,7 @@ import com.badlogic.gdx.utils.Array;
 public abstract class Character {
     boolean upLeft, upRight, downRight, downLeft;
 
-    GameScreen host;
+    com.mygdx.arcademadness.Screens.GameScreen host;
 
     Texture textureRight;
     Texture textureLeft;
@@ -29,8 +32,9 @@ public abstract class Character {
     Rectangle rect;
 
     String direction;
-    float age;
+    int age;
     Boolean isInRoom = false;
+    Boolean wrongRoom = false;
 
     float speed = 1f;
     float speedX;
@@ -42,7 +46,7 @@ public abstract class Character {
     float widthInPixels = 31f;
     float heightInPixels = 31f;
 
-    public Character(float x, float y, GameScreen host) {
+    public Character(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host) {
         this.host = host;
 
         rect = new Rectangle(x, y, widthInPixels, heightInPixels);
@@ -64,15 +68,19 @@ public abstract class Character {
         return isInRoom;
     }
 
+    public boolean isInWrongRoom() {
+        return wrongRoom;
+    }
+
     public void setSpeed(float speed) {
         this.speed = speed;
     }
 
-    public float getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(float age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -235,12 +243,22 @@ public abstract class Character {
         MapLayer layer = host.getMap().getLayers().get("Rooms");
         MapObjects rooms = layer.getObjects();
         Array<RectangleMapObject> roomRectangleObjects = rooms.getByType(RectangleMapObject.class);
+
         for(RectangleMapObject object : roomRectangleObjects) {
             if(object.getRectangle().overlaps(getRect())) {
                 isInRoom = true;
+
                 for(GameRoom gameRoom : host.getGameRoomList()) {
                     if(gameRoom.getX() == object.getRectangle().getX() && gameRoom.getY() == object.getRectangle().getY()) {
-                        gameRoom.addCharacter();
+
+                        if(this instanceof Monster) {
+                            gameRoom.setNumberOfPeopleToZero();
+                        } else if(age < gameRoom.getAgeRestriction()) {
+                            wrongRoom = true;
+                            gameRoom.addCharacter();
+                        } else {
+                            gameRoom.addCharacter();
+                        }
                     }
                 }
             }

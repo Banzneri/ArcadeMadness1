@@ -14,10 +14,10 @@
   </data>
  </layer>
  <objectgroup name="Rooms">
-  <object id="7" x="2" y="0" width="89" height="89"/>
-  <object id="8" x="585" y="1" width="86" height="91"/>
-  <object id="9" x="1" y="322" width="91" height="93"/>
-  <object id="10" x="583" y="325" width="90" height="91"/>
+  <object id="7" name="3" x="2" y="0" width="89" height="89"/>
+  <object id="8" name="18" x="585" y="1" width="86" height="91"/>
+  <object id="9" name="16" x="1" y="322" width="91" height="93"/>
+  <object id="10" name="7" x="583" y="325" width="90" height="91"/>
  </objectgroup>
  <layer name="Rooms" width="21" height="13">
   <data encoding="base64" compression="zlib">

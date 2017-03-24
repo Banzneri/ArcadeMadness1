@@ -1,7 +1,6 @@
-package com.mygdx.arcademadness;
+package com.mygdx.arcademadness.Characters;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 
 /**
  * Created by Banzneri on 16/03/2017.
@@ -9,9 +8,10 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Child extends Character {
 
-    public Child(float x, float y, GameScreen host, String direction) {
+    public Child(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1f);
+        setAge(3);
         setDirection(direction);
 
         textureLeft = new Texture("child_left.png");

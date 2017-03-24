@@ -1,6 +1,7 @@
-package com.mygdx.arcademadness;
+package com.mygdx.arcademadness.GameObjects;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.arcademadness.ArcadeMadness;
 
 /**
  * Created by Banzneri on 22/02/2017.
@@ -11,11 +12,11 @@ public class Entrance {
     private float y;
     private String direction;
     private Rectangle rect;
-    private GameScreen host;
+    private com.mygdx.arcademadness.Screens.GameScreen host;
     private float width = ArcadeMadness.TILE_SIZE_IN_PIXELS;
     private float height = ArcadeMadness.TILE_SIZE_IN_PIXELS;
 
-    public Entrance(float x, float y, GameScreen host, String direction) {
+    public Entrance(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         this.x = x;
         this.y = y;
         this.host = host;
@@ -36,7 +37,7 @@ public class Entrance {
     }
 
     public boolean isFree() {
-        for(Character character : host.getCharacterList()) {
+        for(com.mygdx.arcademadness.Characters.Character character : host.getCharacterList()) {
             if(character.getRect().overlaps(rect)) {
                 return false;
             }

@@ -1,4 +1,4 @@
-package com.mygdx.arcademadness;
+package com.mygdx.arcademadness.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -22,6 +22,17 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.arcademadness.ArcadeMadness;
+import com.mygdx.arcademadness.GameObjects.Arrow;
+import com.mygdx.arcademadness.Characters.Boy;
+import com.mygdx.arcademadness.Characters.Character;
+import com.mygdx.arcademadness.Characters.Child;
+import com.mygdx.arcademadness.GameObjects.Entrance;
+import com.mygdx.arcademadness.GameObjects.GameRoom;
+import com.mygdx.arcademadness.Characters.Monster;
+import com.mygdx.arcademadness.MyInputProcessor;
+import com.mygdx.arcademadness.Characters.OldWoman;
+import com.mygdx.arcademadness.Characters.Woman;
 
 import java.util.ArrayList;
 
@@ -49,6 +60,7 @@ public abstract class GameScreen implements Screen {
 
     private float characterSpawnTimer = 0;
     private float spawnInterval;
+    private int mistakes = 0;
 
     private ArrayList<Arrow> arrowList;
     private ArrayList<Entrance> entranceList;
@@ -56,7 +68,6 @@ public abstract class GameScreen implements Screen {
     private ArrayList<GameRoom> gameRoomList;
 
     private ArcadeMadness host;
-    private MyInputProcessor myInputProcessor;
 
     public GameScreen(String mapName, float spawnInterval, ArcadeMadness host) {
         this.spawnInterval = spawnInterval;
@@ -94,6 +105,7 @@ public abstract class GameScreen implements Screen {
     @Override
     public void render (float dt) {
         checkVictory();
+        checkLose();
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -124,6 +136,7 @@ public abstract class GameScreen implements Screen {
 
     public void drawMenu() {
         float startingXPosition = 4 * ArcadeMadness.TILE_SIZE_IN_PIXELS;
+
         for(int i = 1; i <= arrowAmount - arrowList.size(); i++) {
             if(i == 1) {
                 host.getBatch().draw(menuArrow, startingXPosition, 5, ArcadeMadness.TILE_SIZE_IN_PIXELS - 10, ArcadeMadness.TILE_SIZE_IN_PIXELS - 10);
@@ -131,6 +144,8 @@ public abstract class GameScreen implements Screen {
                 host.getBatch().draw(menuArrow, startingXPosition - ArcadeMadness.TILE_SIZE_IN_PIXELS + i * ArcadeMadness.TILE_SIZE_IN_PIXELS, 5, ArcadeMadness.TILE_SIZE_IN_PIXELS - 10, ArcadeMadness.TILE_SIZE_IN_PIXELS - 10);
             }
         }
+
+        getFont().draw(host.getBatch(), "Virheet: " + Integer.toString(mistakes), 12 * ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.TILE_SIZE_IN_PIXELS - 10);
     }
 
     public void drawLight() {
@@ -210,6 +225,10 @@ public abstract class GameScreen implements Screen {
         return font;
     }
 
+    public float getMistakes() {
+        return mistakes;
+    }
+
     public void setArrowX(float x) {
         arrowX = x;
     }
@@ -224,6 +243,10 @@ public abstract class GameScreen implements Screen {
 
     public void setTouchDownY(float y) {
         touchDownY = y;
+    }
+
+    public void addMistake() {
+        mistakes++;
     }
 
     /**
@@ -269,9 +292,10 @@ public abstract class GameScreen implements Screen {
         MapLayer layer = getMap().getLayers().get("Rooms");
         MapObjects rooms = layer.getObjects();
         Array<RectangleMapObject> roomRectangleObjects = rooms.getByType(RectangleMapObject.class);
+
         for(RectangleMapObject object : roomRectangleObjects) {
             gameRoomList.add(new GameRoom(object.getRectangle().getX(), object.getRectangle().getY(),
-                            object.getRectangle().getWidth(), object.getRectangle().getHeight(), this));
+                            object.getRectangle().getWidth(), object.getRectangle().getHeight(), object.getName(), this));
         }
     }
 
@@ -290,23 +314,27 @@ public abstract class GameScreen implements Screen {
             float x = entrance.getX();
             float y = entrance.getY();
 
-            int rand = MathUtils.random(4);
+            int rand = MathUtils.random(3);
+            int monsterRand = MathUtils.random(9);
 
-            if (rand == 0) {
-                Woman woman = new Woman(x, y, this, entrance.getDirection());
-                characterList.add(woman);
-            } else if (rand == 1) {
-                Boy boy = new Boy(x, y, this, entrance.getDirection());
-                characterList.add(boy);
-            } else if (rand == 2) {
+            if(monsterRand == 1) {
                 Monster monster = new Monster(x, y, this, entrance.getDirection());
                 characterList.add(monster);
-            } else if (rand == 3) {
-                OldWoman oldWoman = new OldWoman(x, y, this, entrance.getDirection());
-                characterList.add(oldWoman);
-            } else if (rand == 4) {
-                Child child = new Child(x, y, this, entrance.getDirection());
-                characterList.add(child);
+            } else {
+
+                if (rand == 0) {
+                    Woman woman = new Woman(x, y, this, entrance.getDirection());
+                    characterList.add(woman);
+                } else if (rand == 1) {
+                    Boy boy = new Boy(x, y, this, entrance.getDirection());
+                    characterList.add(boy);
+                } else if (rand == 2) {
+                    OldWoman oldWoman = new OldWoman(x, y, this, entrance.getDirection());
+                    characterList.add(oldWoman);
+                } else if (rand == 3) {
+                    Child child = new Child(x, y, this, entrance.getDirection());
+                    characterList.add(child);
+                }
             }
         }
     }
@@ -316,6 +344,9 @@ public abstract class GameScreen implements Screen {
 
         for(Character character : characterList) {
             if(character.isInRoom()) {
+                if(character.isInWrongRoom()) {
+                    addMistake();
+                }
                 removeCharacter.add(character);
             }
         }
@@ -442,8 +473,6 @@ public abstract class GameScreen implements Screen {
                 }
 
                 helperArrow.draw(host.getBatch());
-                Gdx.app.log("X", Float.toString(x));
-                Gdx.app.log("Y", Float.toString(y));
             }
         }
     }
@@ -479,11 +508,9 @@ public abstract class GameScreen implements Screen {
 
     public boolean isWin() {
         for(GameRoom gameRoom : gameRoomList) {
-            if(gameRoom.getNumberOfPeople() < 2) {
-                Gdx.app.log("", Float.toString(gameRoomList.size()));
+            if(gameRoom.getNumberOfPeople() < 4) {
                 return false;
             }
-            Gdx.app.log("", "BLAA");
         }
 
         return true;
@@ -491,7 +518,15 @@ public abstract class GameScreen implements Screen {
 
     public void checkVictory() {
         if(isWin()) {
-            Gdx.app.exit();
+            Gdx.app.log("", "You win!");
+            getHost().setScreen(new GameEndScreen(getHost()));
+        }
+    }
+
+    public void checkLose() {
+        if(mistakes >= 3) {
+            Gdx.app.log("", "You lose!");
+            getHost().setScreen(new GameEndScreen(getHost()));
         }
     }
 }

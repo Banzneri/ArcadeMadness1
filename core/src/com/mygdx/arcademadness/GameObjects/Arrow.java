@@ -1,9 +1,10 @@
-package com.mygdx.arcademadness;
+package com.mygdx.arcademadness.GameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.arcademadness.ArcadeMadness;
 
 /**
  * Created by Banzneri on 22/02/2017.

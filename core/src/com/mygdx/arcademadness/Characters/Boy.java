@@ -1,4 +1,4 @@
-package com.mygdx.arcademadness;
+package com.mygdx.arcademadness.Characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,9 +9,10 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Boy extends Character {
 
-    public Boy(float x, float y, GameScreen host, String direction) {
+    public Boy(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1f);
+        setAge(14);
         setDirection(direction);
         setRandomTexture();
     }

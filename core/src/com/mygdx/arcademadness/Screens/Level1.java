@@ -1,6 +1,7 @@
-package com.mygdx.arcademadness;
+package com.mygdx.arcademadness.Screens;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.mygdx.arcademadness.*;
 
 /**
  * Created by Banzneri on 16/03/2017.

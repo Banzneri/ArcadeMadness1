@@ -1,4 +1,4 @@
-package com.mygdx.arcademadness;
+package com.mygdx.arcademadness.Characters;
 
 import com.badlogic.gdx.graphics.Texture;
 
@@ -8,9 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Woman extends Character {
 
-    public Woman(float x, float y, GameScreen host, String direction) {
+    public Woman(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1/2f);
+        setAge(30);
         setDirection(direction);
 
         textureLeft = new Texture("adult_left.png");
