@@ -24,4 +24,9 @@
    eJztzLUNwFAQwNCbIIwKo8K4/25xmf7ab+m1tkTEhiO6YiRIkSFHoXz2GDBiwoxF+bzx4FV+TKZ/AUJEyo8LDz4atOiUzxIVahw4cSmfKzbs+ABe+wST
   </data>
  </layer>
+ <layer name="PuzzlePieces" width="21" height="13">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjALyAQAERAAB
+  </data>
+ </layer>
 </map>
