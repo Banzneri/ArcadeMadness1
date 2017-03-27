@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="21" height="13" tilewidth="32" tileheight="32" nextobjectid="11">
- <tileset firstgid="1" name="am-tiles32" tilewidth="32" tileheight="32" tilecount="52" columns="13">
-  <image source="am-tiles32.png" width="416" height="128"/>
+ <tileset firstgid="1" name="am-tiles32" tilewidth="32" tileheight="32" tilecount="324" columns="18">
+  <image source="am-tiles32.png" width="600" height="600"/>
  </tileset>
  <layer name="Floors" width="21" height="13">
   <data encoding="base64" compression="zlib">
-   eJxjYKANYKMiHjVz1MxRM6lnJrUBAIEyBOc=
+   eJwTZqANYKMihgFhKKammbRw56iZo2YOZjOpDQAviQUU
   </data>
  </layer>
  <layer name="Graphics" width="21" height="13">
@@ -21,7 +21,7 @@
  </objectgroup>
  <layer name="Rooms" width="21" height="13">
   <data encoding="base64" compression="zlib">
-   eJztzLUNwFAQwNCbIIwKo8K4/25xmf7ab+m1tkTEhiO6YiRIkSFHoXz2GDBiwoxF+bzx4FV+TKZ/AUJEyo8LDz4atOiUzxIVahw4cSmfKzbs+ABe+wST
+   eJztzKURwFAQANHrIYwujC6M/ReVlfFn/848u5aI2HBEV4wEKTLkKJTPHgNGTJixKJ83HrzKj8n0L0CISPlx4cFHgxad8lmiQo0DJy7lc8WGHR86aAX7
   </data>
  </layer>
  <layer name="PuzzlePieces" width="21" height="13">
