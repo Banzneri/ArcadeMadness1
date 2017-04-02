@@ -11,7 +11,7 @@ public class Child extends Character {
     public Child(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1f);
-        setAge(3);
+        setAge(7);
         setDirection(direction);
 
         textureLeft = new Texture("child_left.png");

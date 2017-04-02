@@ -1,9 +1,11 @@
 package com.mygdx.arcademadness.Screens;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -50,6 +52,7 @@ public abstract class GameScreen implements Screen {
     private Sprite lightTexture;
     private TextureRegion menuArrow;
     private BitmapFont font;
+    private Music music;
 
     private float arrowX;
     private float arrowY;
@@ -79,8 +82,9 @@ public abstract class GameScreen implements Screen {
         menuArrow = new TextureRegion(arrowSheet, 0, 32, 32, 32);
         createFont();
 
-        helperArrow = new Arrow("up", 0, 0);
+        startMusic();
 
+        helperArrow = new Arrow("up", 0, 0);
         arrowList = new ArrayList<Arrow>();
         entranceList = new ArrayList<Entrance>();
         characterList = new ArrayList<Character>();
@@ -134,6 +138,12 @@ public abstract class GameScreen implements Screen {
         font = generator.generateFont(parameter);
     }
 
+    public void startMusic() {
+        music = Gdx.audio.newMusic(Gdx.files.internal("DayAndNight.wav"));
+        music.setLooping(true);
+        music.play();
+    }
+
     public void drawMenu() {
         float startingXPosition = 4 * ArcadeMadness.TILE_SIZE_IN_PIXELS;
 
@@ -158,7 +168,7 @@ public abstract class GameScreen implements Screen {
 
     @Override
     public void dispose () {
-        host.getBatch().dispose();
+        music.dispose();
     }
 
     /**
@@ -519,6 +529,7 @@ public abstract class GameScreen implements Screen {
     public void checkVictory() {
         if(isWin()) {
             Gdx.app.log("", "You win!");
+            dispose();
             getHost().setScreen(new GameEndScreen(getHost()));
         }
     }
@@ -526,6 +537,7 @@ public abstract class GameScreen implements Screen {
     public void checkLose() {
         if(mistakes >= 3) {
             Gdx.app.log("", "You lose!");
+            this.dispose();
             getHost().setScreen(new GameEndScreen(getHost()));
         }
     }

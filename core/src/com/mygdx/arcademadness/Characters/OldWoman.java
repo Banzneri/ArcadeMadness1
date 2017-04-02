@@ -10,7 +10,7 @@ public class OldWoman extends Character {
 
     public OldWoman(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
-        setSpeed(2f);
+        setSpeed(0.5f);
         setAge(80);
         setDirection(direction);
 

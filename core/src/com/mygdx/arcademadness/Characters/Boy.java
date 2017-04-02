@@ -12,7 +12,7 @@ public class Boy extends Character {
     public Boy(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1f);
-        setAge(14);
+        setAge(16);
         setDirection(direction);
         setRandomTexture();
     }

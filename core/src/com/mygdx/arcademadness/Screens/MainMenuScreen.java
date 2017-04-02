@@ -65,7 +65,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(0.7f, 0f, 0.3f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         host.getCamera().update();
@@ -103,7 +103,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        map.dispose();
+        stage.dispose();
+        this.dispose();
     }
 
     public void setButtons() {
@@ -114,20 +116,20 @@ public class MainMenuScreen implements Screen {
         for(RectangleMapObject object : roomRectangleObjects) {
             if(object.getName().equals("play-button")) {
                 playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("play-button.png"))));
-                playButton.setPosition(object.getRectangle().getX(), object.getRectangle().getY() - object.getRectangle().getHeight());
-                playButton.setSize(object.getRectangle().getWidth(), object.getRectangle().getWidth());
+                playButton.setSize(object.getRectangle().getWidth(), object.getRectangle().getHeight());
+                playButton.setPosition(object.getRectangle().getX(), object.getRectangle().getY());
             } else if(object.getName().equals("settings-button")) {
                 settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("settings-button.png"))));
-                settingsButton.setPosition(object.getRectangle().getX(), object.getRectangle().getY() - object.getRectangle().getHeight());
-                settingsButton.setSize(object.getRectangle().getWidth(), object.getRectangle().getWidth());
+                settingsButton.setSize(object.getRectangle().getWidth(), object.getRectangle().getHeight());
+                settingsButton.setPosition(object.getRectangle().getX(), object.getRectangle().getY());
             } else if(object.getName().equals("left-stick")) {
                 leftJoystick = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("joystick.png"))));
-                leftJoystick.setPosition(object.getRectangle().getX(), object.getRectangle().getY() - object.getRectangle().getHeight());
                 leftJoystick.setSize(32, 64);
+                leftJoystick.setPosition(object.getRectangle().getX(), object.getRectangle().getY() - object.getRectangle().getHeight());
             } else if(object.getName().equals("right-stick")) {
                 rightJoystick = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("joystick.png"))));
-                rightJoystick.setPosition(object.getRectangle().getX(), object.getRectangle().getY() - object.getRectangle().getHeight());
                 rightJoystick.setSize(32, 64);
+                rightJoystick.setPosition(object.getRectangle().getX(), object.getRectangle().getY() - object.getRectangle().getHeight());
             }
         }
     }
@@ -160,11 +162,11 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(currentLevel==1) {
+                if(currentLevel == 1) {
                     MainMenuScreen.this.host.setScreen(new Level1(MainMenuScreen.this.host));
-                } else if(currentLevel==2) {
+                } else if(currentLevel == 2) {
                     MainMenuScreen.this.host.setScreen(new Level2(MainMenuScreen.this.host));
-                } else if(currentLevel==3) {
+                } else if(currentLevel == 3) {
                     MainMenuScreen.this.host.setScreen(new Level3(MainMenuScreen.this.host));
                 }
             }

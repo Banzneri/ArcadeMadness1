@@ -5,7 +5,7 @@
  </tileset>
  <layer name="Machine" width="21" height="13">
   <data encoding="base64" compression="zlib">
-   eJydzEVSHFAARdHG3TW4u0Nwd3d3TyCBBNs/ZwHQg/+qzvDdSOTrxRBLHPEkkEgSyaR884u2VNJIJ4NMssgmh9yAZh75FFBIEcX8oITSgGYZ5VRQSRXV1FBLXUCzngYaaaKZFlppoz2g2UEnXXTTQy99/KQ/oDnAIEMMM8IoY4wzEdCcZIppZphljnkWWAxoLrHMCqussc4Gm2wFNLfZYZc99jngkCOOA5onnHLGORdccsU1NwHNW+645xe/eeCRP/wNaD7xzD/+88Irb7zzEeX7Cc3SGvg=
+   eJyd0bVSRFEURcGHu7u7uzsM7u7uzv/HdBUpM8E9VR2elewo+v+SSCaFVNJIJ4NMsuL8Jbpscsglj3wKKKSI4oBmCaWUUU4FlVRRTU1As5Y66mmgkSaaaaE1oNlGOx100kU3PfTSF9DsZ4BBhhhmhFHGGA9oTjDJFNPMMMsc8ywENGMsssQyK6yyxjobAc1Ntthmh1322OeAw4DmEceccMoZ51xwyVVA85obbrnjngceeeI5oPnCK2+888EnX3zzE9CMRX9bxJNoo1+MQhl4
   </data>
  </layer>
  <objectgroup name="Screen">
@@ -14,7 +14,7 @@
  <objectgroup name="Buttons">
   <object id="3" name="left-stick" x="216.5" y="331.5" width="19" height="15.5"/>
   <object id="4" name="right-stick" x="433" y="333" width="23.5" height="14.5"/>
-  <object id="5" name="play-button" x="297.5" y="288" width="85" height="26"/>
-  <object id="6" name="settings-button" x="297" y="329" width="85.5" height="26.5"/>
+  <object id="5" name="play-button" x="280.5" y="268.5" width="113" height="53"/>
+  <object id="6" name="settings-button" x="281" y="327" width="112.5" height="38.5"/>
  </objectgroup>
 </map>
