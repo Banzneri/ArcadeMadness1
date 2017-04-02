@@ -47,7 +47,7 @@ public class MainMenuScreen implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("main-menu.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
-        chosenLevel = new Texture("level" + currentLevel + ".png");
+        chosenLevel = new Texture(Gdx.files.internal("level1.png"));
 
         setArcadeScreen();
         setButtons();
