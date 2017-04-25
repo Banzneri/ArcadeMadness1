@@ -1,6 +1,6 @@
 package com.mygdx.arcademadness.Screens;
 
-import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -22,8 +22,14 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.arcademadness.ArcadeMadness;
 import com.mygdx.arcademadness.GameObjects.Arrow;
 import com.mygdx.arcademadness.Characters.Boy;
@@ -36,6 +42,8 @@ import com.mygdx.arcademadness.MyInputProcessor;
 import com.mygdx.arcademadness.Characters.OldWoman;
 import com.mygdx.arcademadness.Characters.Woman;
 
+import org.w3c.dom.css.Rect;
+
 import java.util.ArrayList;
 
 /**
@@ -43,6 +51,9 @@ import java.util.ArrayList;
  */
 
 public abstract class GameScreen implements Screen {
+
+    public boolean GAME_STARTED;
+    public boolean paused;
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -63,6 +74,7 @@ public abstract class GameScreen implements Screen {
 
     private float characterSpawnTimer = 0;
     private float spawnInterval;
+    private float tutorialTimer = 0;
     private int mistakes = 0;
 
     private ArrayList<Arrow> arrowList;
@@ -76,9 +88,11 @@ public abstract class GameScreen implements Screen {
         this.spawnInterval = spawnInterval;
         this.host = host;
 
+        initGameState();
+
         logoTexture = new Texture("am.png");
         lightTexture = new Sprite(new Texture("light.png"));
-        Texture arrowSheet = new Texture("arrows-gold-big.png");
+        Texture arrowSheet = new Texture("Arrows/arrows-gold-big.png");
         menuArrow = new TextureRegion(arrowSheet, 0, 32, 32, 32);
         createFont();
 
@@ -108,8 +122,6 @@ public abstract class GameScreen implements Screen {
 
     @Override
     public void render (float dt) {
-        checkVictory();
-        checkLose();
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -118,16 +130,30 @@ public abstract class GameScreen implements Screen {
         renderer.setView(host.getCamera());
         host.getBatch().setProjectionMatrix(host.getCamera().combined);
 
-        removeCharacters();
-        spawnCharacter();
-        moveAll();
-
         host.getBatch().begin();
         Color c = host.getBatch().getColor();
         host.getBatch().setColor(c.r, c.g, c.b, 1f); // set alpha to 1
         drawAll();
         host.getBatch().end();
-        //Gdx.app.log("fps", Float.toString(Gdx.graphics.getFramesPerSecond()));
+
+        if(!paused) {
+            checkVictory();
+            checkLose();
+
+            removeCharacters();
+            spawnCharacter();
+            moveAll();
+        }
+    }
+
+    public void initGameState() {
+        if(host.FIRST_TIME) {
+            GAME_STARTED = false;
+            paused = true;
+        } else {
+            GAME_STARTED = true;
+            paused = false;
+        }
     }
 
     public void createFont() {
@@ -139,12 +165,15 @@ public abstract class GameScreen implements Screen {
     }
 
     public void startMusic() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("DayAndNight.wav"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/DayAndNight.wav"));
         music.setLooping(true);
+        music.setVolume(0.4f);
         music.play();
     }
 
     public void drawMenu() {
+        getFont().setColor(Color.WHITE);
+
         float startingXPosition = 4 * ArcadeMadness.TILE_SIZE_IN_PIXELS;
 
         for(int i = 1; i <= arrowAmount - arrowList.size(); i++) {
@@ -158,12 +187,19 @@ public abstract class GameScreen implements Screen {
         getFont().draw(host.getBatch(), "Virheet: " + Integer.toString(mistakes), 12 * ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.TILE_SIZE_IN_PIXELS - 10);
     }
 
-    public void drawLight() {
-        host.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);
-        lightTexture.setPosition(0, ArcadeMadness.worldHeight - 32);
-        lightTexture.setSize(32, 32);
-        lightTexture.draw(host.getBatch(), 1f);
-        host.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+    public void drawTutorial() {
+
+        if(!GAME_STARTED && host.FIRST_TIME) {
+
+            if(tutorialTimer < spawnInterval) {
+                tutorialTimer += Gdx.graphics.getDeltaTime();
+                host.getBatch().draw(new Texture(Gdx.files.internal("tutorial-text.png")), 0, 0, ArcadeMadness.worldWidth, ArcadeMadness.worldHeight);
+            } else {
+                GAME_STARTED = true;
+                paused = false;
+                host.FIRST_TIME = false;
+            }
+        }
     }
 
     @Override
@@ -255,6 +291,10 @@ public abstract class GameScreen implements Screen {
         touchDownY = y;
     }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     public void addMistake() {
         mistakes++;
     }
@@ -290,7 +330,7 @@ public abstract class GameScreen implements Screen {
         int indexX = (int) (x / ArcadeMadness.TILE_SIZE_IN_PIXELS);
         int indexY = (int) (y / ArcadeMadness.TILE_SIZE_IN_PIXELS);
 
-        if(isFree(x, y)) {
+        if(isFree(x, y) && !isGameRoom(x, y)) {
             arrowList.add(new Arrow(direction, indexX * ArcadeMadness.TILE_SIZE_IN_PIXELS, indexY * ArcadeMadness.TILE_SIZE_IN_PIXELS));
         }
         if(arrowList.size() > arrowAmount) {
@@ -306,6 +346,21 @@ public abstract class GameScreen implements Screen {
         for(RectangleMapObject object : roomRectangleObjects) {
             gameRoomList.add(new GameRoom(object.getRectangle().getX(), object.getRectangle().getY(),
                             object.getRectangle().getWidth(), object.getRectangle().getHeight(), object.getName(), this));
+        }
+
+        MapLayer numberLayer = getMap().getLayers().get("Numbers");
+        MapObjects numbers = numberLayer.getObjects();
+        Array<RectangleMapObject> numberObjects = numbers.getByType(RectangleMapObject.class);
+
+
+        for(RectangleMapObject object : numberObjects) {
+
+            for(GameRoom gameRoom: gameRoomList) {
+                if(Integer.parseInt(object.getName()) == gameRoom.getAgeRestriction()) {
+                    Rectangle rectangle = new Rectangle(object.getRectangle().getX(), object.getRectangle().getY(), object.getRectangle().getWidth(), object.getRectangle().getHeight());
+                    gameRoom.setNumberRectangle(rectangle);
+                }
+            }
         }
     }
 
@@ -368,10 +423,13 @@ public abstract class GameScreen implements Screen {
      * Adds the entrance objects to the Entrance list
      */
     public void addEntrances() {
-        entranceList.add(new Entrance(ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.worldHeight / 2 - ArcadeMadness.TILE_SIZE_IN_PIXELS / 2, this, "right"));
-        entranceList.add(new Entrance(ArcadeMadness.worldWidth / 2 - ArcadeMadness.TILE_SIZE_IN_PIXELS / 2, ArcadeMadness.TILE_SIZE_IN_PIXELS, this, "up"));
-        entranceList.add(new Entrance(ArcadeMadness.worldWidth / 2 - ArcadeMadness.TILE_SIZE_IN_PIXELS / 2, ArcadeMadness.worldHeight - ArcadeMadness.TILE_SIZE_IN_PIXELS, this, "down"));
-        entranceList.add(new Entrance(ArcadeMadness.worldWidth - ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.worldHeight / 2 - ArcadeMadness.TILE_SIZE_IN_PIXELS / 2, this, "left"));
+        MapLayer layer = getMap().getLayers().get("Entrances");
+        MapObjects entrances = layer.getObjects();
+        Array<RectangleMapObject> roomRectangleObjects = entrances.getByType(RectangleMapObject.class);
+
+        for(RectangleMapObject object : roomRectangleObjects) {
+            entranceList.add(new Entrance(object.getRectangle().getX(), object.getRectangle().getY(), this, object.getName()));
+        }
     }
 
     /**
@@ -410,10 +468,21 @@ public abstract class GameScreen implements Screen {
         return false;
     }
 
+    public boolean isGameRoom(float x, float y) {
+        for(GameRoom gameRoom: gameRoomList) {
+            if(x >= gameRoom.getX() && x <= gameRoom.getX() + 3 * ArcadeMadness.TILE_SIZE_IN_PIXELS && y >= gameRoom.getY() && y <= gameRoom.getY() + 3 * ArcadeMadness.TILE_SIZE_IN_PIXELS) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Handles all the drawing (except for the Tiled map)
      */
     public void drawAll() {
+        drawTutorial();
         drawArrows();
 
         for(Character character : characterList) {
@@ -422,7 +491,7 @@ public abstract class GameScreen implements Screen {
 
         host.getBatch().draw(logoTexture, 0, ArcadeMadness.worldHeight + 20, ArcadeMadness.worldWidth, logoTexture.getHeight());
         drawMenu();
-        drawLight();
+        // drawLight();
 
         drawStretchArrow();
         drawNumberOfPeople();
@@ -457,7 +526,7 @@ public abstract class GameScreen implements Screen {
             helperArrow.setHeight(ArcadeMadness.TILE_SIZE_IN_PIXELS);
 
             // Draws the helper arrow only if the tile is free
-            if(isFree(arrowX, arrowY)) {
+            if(isFree(arrowX, arrowY) && !isGameRoom(arrowX, arrowY)) {
 
                 // If the arrow is pulled to the right
                 if (Math.abs(touchPos.x - arrowX) > Math.abs(touchPos.y - arrowY) && touchPos.x > arrowX) {
@@ -529,6 +598,7 @@ public abstract class GameScreen implements Screen {
     public void checkVictory() {
         if(isWin()) {
             Gdx.app.log("", "You win!");
+            host.setNextLevel(host.getNextLevel() + 1);
             dispose();
             getHost().setScreen(new GameEndScreen(getHost()));
         }
@@ -540,5 +610,30 @@ public abstract class GameScreen implements Screen {
             this.dispose();
             getHost().setScreen(new GameEndScreen(getHost()));
         }
+    }
+
+    public Array<RectangleMapObject> getNumbersLayer() {
+        MapLayer layer = getMap().getLayers().get("Numbers");
+        MapObjects numbers = layer.getObjects();
+        Array<RectangleMapObject> roomRectangleObjects = numbers.getByType(RectangleMapObject.class);
+
+        return roomRectangleObjects;
+    }
+
+    public void drawAge(float x, float y) {
+        Vector3 vector3 = new Vector3(x, y, 0);
+        host.getCamera().unproject(vector3);
+
+        float mx = vector3.x;
+        float my = vector3.y;
+
+        for(Character character: characterList) {
+            if(mx > character.getRect().getX() && mx < character.getRect().getX() + character.getRect().getWidth() &&
+                    my > character.getRect().getY() && my < character.getRect().getY() + character.getRect().getWidth()) {
+                character.startAgeDraw();
+            }
+        }
+
+        Gdx.app.log("", mx + " " + my);
     }
 }

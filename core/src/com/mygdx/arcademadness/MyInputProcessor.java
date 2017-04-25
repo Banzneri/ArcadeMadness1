@@ -41,18 +41,20 @@ public class MyInputProcessor implements InputProcessor, GestureDetector.Gesture
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        float arrowX = host.getArrowX();
-        float arrowY = host.getArrowY();
+        if(!host.paused) {
+            float arrowX = host.getArrowX();
+            float arrowY = host.getArrowY();
 
-        if(!Gdx.input.isTouched()) {
-            if (Math.abs(screenX - host.getTouchDownX()) > Math.abs(screenY - host.getTouchDownY()) && screenX > host.getTouchDownX() && !host.isArrow("right")) {
-                host.addArrow("right", arrowX, arrowY);
-            } else if (Math.abs(screenX - host.getTouchDownX()) > Math.abs(screenY - host.getTouchDownY()) && screenX < host.getTouchDownX() && !host.isArrow("left")) {
-                host.addArrow("left", arrowX, arrowY);
-            } else if (Math.abs(screenX - host.getTouchDownX()) < Math.abs(screenY - host.getTouchDownY()) && screenY > host.getTouchDownY() && !host.isArrow("down")) {
-                host.addArrow("down", arrowX, arrowY);
-            } else if (Math.abs(screenX - host.getTouchDownX()) < Math.abs(screenY - host.getTouchDownY()) && screenY < host.getTouchDownY() && !host.isArrow("up")) {
-                host.addArrow("up", arrowX, arrowY);
+            if (!Gdx.input.isTouched()) {
+                if (Math.abs(screenX - host.getTouchDownX()) > Math.abs(screenY - host.getTouchDownY()) && screenX > host.getTouchDownX() && !host.isArrow("right")) {
+                    host.addArrow("right", arrowX, arrowY);
+                } else if (Math.abs(screenX - host.getTouchDownX()) > Math.abs(screenY - host.getTouchDownY()) && screenX < host.getTouchDownX() && !host.isArrow("left")) {
+                    host.addArrow("left", arrowX, arrowY);
+                } else if (Math.abs(screenX - host.getTouchDownX()) < Math.abs(screenY - host.getTouchDownY()) && screenY > host.getTouchDownY() && !host.isArrow("down")) {
+                    host.addArrow("down", arrowX, arrowY);
+                } else if (Math.abs(screenX - host.getTouchDownX()) < Math.abs(screenY - host.getTouchDownY()) && screenY < host.getTouchDownY() && !host.isArrow("up")) {
+                    host.addArrow("up", arrowX, arrowY);
+                }
             }
         }
 
@@ -80,27 +82,32 @@ public class MyInputProcessor implements InputProcessor, GestureDetector.Gesture
         // Sets the arrow coordinates when the users finger touches down on the screen.
         // The arrowX and arrowY parameters are used in the fling() method, where the actual placement
         // of the arrow happens.
-        int realY = Gdx.input.getY();
-        int realX = Gdx.input.getX();
-        host.setTouchDownX(Gdx.input.getX());
-        host.setTouchDownY(Gdx.input.getY());
+        if(!host.paused) {
+            int realY = Gdx.input.getY();
+            int realX = Gdx.input.getX();
+            host.setTouchDownX(Gdx.input.getX());
+            host.setTouchDownY(Gdx.input.getY());
 
-        Vector3 touchPos = new Vector3(realX, realY, 0);
+            Vector3 touchPos = new Vector3(realX, realY, 0);
 
-        host.getHost().getCamera().unproject(touchPos);
+            host.getHost().getCamera().unproject(touchPos);
 
-        host.setArrowX(touchPos.x);
-        host.setArrowY(touchPos.y);
+            host.setArrowX(touchPos.x);
+            host.setArrowY(touchPos.y);
+        }
         return false;
     }
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        if(!Gdx.input.isTouched()) {
-            if (count == 2) {
-                host.removeAllArrows();
-            } else {
-                host.removeArrow(x, y);
+        if(!host.paused) {
+            host.drawAge(x, y);
+            if (!Gdx.input.isTouched()) {
+                if (count == 2) {
+                    host.removeAllArrows();
+                } else {
+                    host.removeArrow(x, y);
+                }
             }
         }
         return false;

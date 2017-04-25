@@ -2,6 +2,7 @@ package com.mygdx.arcademadness.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -41,13 +42,18 @@ public class MainMenuScreen implements Screen {
     float screenY;
     float screenWidth;
     float screenHeight;
+    Sound menuSound;
+    Sound playSound;
 
     public MainMenuScreen(ArcadeMadness host) {
         this.host = host;
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("main-menu.tmx");
+        map = mapLoader.load("main-menu-wider.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
-        chosenLevel = new Texture(Gdx.files.internal("level1.png"));
+        chosenLevel = new Texture(Gdx.files.internal("LevelPreviews/level1-preview.png"));
+
+        menuSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click_2.wav"));
+        playSound = Gdx.audio.newSound(Gdx.files.internal("sounds/misc_menu_4.wav"));
 
         setArcadeScreen();
         setButtons();
@@ -115,21 +121,21 @@ public class MainMenuScreen implements Screen {
 
         for(RectangleMapObject object : roomRectangleObjects) {
             if(object.getName().equals("play-button")) {
-                playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("play-button.png"))));
+                playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Buttons/play-button.png"))));
                 playButton.setSize(object.getRectangle().getWidth(), object.getRectangle().getHeight());
                 playButton.setPosition(object.getRectangle().getX(), object.getRectangle().getY());
             } else if(object.getName().equals("settings-button")) {
-                settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("settings-button.png"))));
+                settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Buttons/settings-button.png"))));
                 settingsButton.setSize(object.getRectangle().getWidth(), object.getRectangle().getHeight());
                 settingsButton.setPosition(object.getRectangle().getX(), object.getRectangle().getY());
             } else if(object.getName().equals("left-stick")) {
-                leftJoystick = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("joystick.png"))));
-                leftJoystick.setSize(32, 64);
-                leftJoystick.setPosition(object.getRectangle().getX(), object.getRectangle().getY() - object.getRectangle().getHeight());
+                leftJoystick = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Buttons/left-arrow.png"))));
+                leftJoystick.setSize(object.getRectangle().getWidth(), object.getRectangle().getHeight());
+                leftJoystick.setPosition(object.getRectangle().getX(), object.getRectangle().getY());
             } else if(object.getName().equals("right-stick")) {
-                rightJoystick = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("joystick.png"))));
-                rightJoystick.setSize(32, 64);
-                rightJoystick.setPosition(object.getRectangle().getX(), object.getRectangle().getY() - object.getRectangle().getHeight());
+                rightJoystick = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Buttons/right-arrow.png"))));
+                rightJoystick.setSize(object.getRectangle().getWidth(), object.getRectangle().getHeight());
+                rightJoystick.setPosition(object.getRectangle().getX(), object.getRectangle().getY());
             }
         }
     }
@@ -168,7 +174,13 @@ public class MainMenuScreen implements Screen {
                     MainMenuScreen.this.host.setScreen(new Level2(MainMenuScreen.this.host));
                 } else if(currentLevel == 3) {
                     MainMenuScreen.this.host.setScreen(new Level3(MainMenuScreen.this.host));
+                } else if(currentLevel == 4) {
+                    MainMenuScreen.this.host.setScreen(new Level4(MainMenuScreen.this.host));
                 }
+
+                host.setNextLevel(currentLevel);
+
+                playSound.play();
             }
         });
 
@@ -176,6 +188,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //GameEndScreen.this.getHost().setScreen(new MainMenuScreen(GameEndScreen.this.getHost()));
+                menuSound.play();
             }
         });
 
@@ -188,7 +201,9 @@ public class MainMenuScreen implements Screen {
                     currentLevel = 1;
                 }
 
-                chosenLevel = new Texture("level" + currentLevel + ".png");
+                chosenLevel = new Texture("LevelPreviews/level" + currentLevel + "-preview.png");
+
+                menuSound.play();
             }
         });
 
@@ -197,12 +212,14 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 currentLevel++;
 
-                if(currentLevel==4) {
-                    currentLevel = 3;
+                if(currentLevel==5) {
+                    currentLevel = 4;
                 }
 
-                chosenLevel = new Texture("level" + currentLevel + ".png");
-                //MainMenuScreen.this.host.setScreen(new MainMenuScreen(GameEndScreen.this.getHost()));
+
+                chosenLevel = new Texture("LevelPreviews/level" + currentLevel + "-preview.png");
+
+                menuSound.play();
             }
         });
     }

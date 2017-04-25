@@ -14,9 +14,9 @@ public class OldWoman extends Character {
         setAge(80);
         setDirection(direction);
 
-        textureLeft = new Texture("granny_left.png");
-        textureRight = new Texture("granny_right.png");
-        textureDown = new Texture("granny_front.png");
-        textureUp = new Texture("granny_back.png");
+        textureLeft = new Texture("CharacterTextures/granny_left.png");
+        textureRight = new Texture("CharacterTextures/granny_right.png");
+        textureDown = new Texture("CharacterTextures/granny_front.png");
+        textureUp = new Texture("CharacterTextures/granny_back.png");
     }
 }

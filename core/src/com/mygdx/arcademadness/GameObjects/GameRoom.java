@@ -1,5 +1,9 @@
 package com.mygdx.arcademadness.GameObjects;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Rectangle;
+
 /**
  * Created by Banzneri on 16/03/2017.
  */
@@ -11,6 +15,7 @@ public class GameRoom {
     private float width;
     private float height;
     private int ageRestriction;
+    private Rectangle numberRectangle;
     private com.mygdx.arcademadness.Screens.GameScreen host;
 
     public GameRoom(float x, float y, float width, float height, String ageRestriction, com.mygdx.arcademadness.Screens.GameScreen host) {
@@ -34,6 +39,10 @@ public class GameRoom {
         } else {
             setAgeRestriction(18);
         }
+    }
+
+    public void setNumberRectangle(Rectangle numberRectangle) {
+        this.numberRectangle = numberRectangle;
     }
 
     public void setAgeRestriction(int ageRestriction) {
@@ -61,7 +70,8 @@ public class GameRoom {
     }
 
     public void drawNumberOfPeople() {
-        host.getFont().draw(host.getHost().getBatch(), Integer.toString(numberOfPeople), x + width / 2 - 8, y + height / 2 - 16);
+        host.getFont().setColor(Color.WHITE);
+        host.getFont().draw(host.getHost().getBatch(), Integer.toString(numberOfPeople) + "/4", numberRectangle.getX(), numberRectangle.getY() + numberRectangle.getHeight() / 2);
     }
 
     public void setNumberOfPeopleToZero() {

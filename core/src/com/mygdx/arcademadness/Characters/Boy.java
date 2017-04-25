@@ -21,15 +21,15 @@ public class Boy extends Character {
         int rand = MathUtils.random(0, 1);
 
         if(rand == 0) {
-            textureLeft = new Texture("jonne_left.png");
-            textureRight = new Texture("jonne_right.png");
-            textureDown = new Texture("jonne_front.png");
-            textureUp = new Texture("jonne_back.png");
+            textureLeft = new Texture("CharacterTextures/jonne_left.png");
+            textureRight = new Texture("CharacterTextures/jonne_right.png");
+            textureDown = new Texture("CharacterTextures/jonne_front.png");
+            textureUp = new Texture("CharacterTextures/jonne_back.png");
         } else {
-            textureLeft = new Texture("jonna_left.png");
-            textureRight = new Texture("jonna_right.png");
-            textureDown = new Texture("jonne_front.png");
-            textureUp = new Texture("jonna_back.png");
+            textureLeft = new Texture("CharacterTextures/jonna_left.png");
+            textureRight = new Texture("CharacterTextures/jonna_right.png");
+            textureDown = new Texture("CharacterTextures/jonne_front.png");
+            textureUp = new Texture("CharacterTextures/jonna_back.png");
         }
     }
 }

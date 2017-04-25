@@ -1,6 +1,9 @@
 package com.mygdx.arcademadness.Characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
@@ -9,6 +12,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.arcademadness.ArcadeMadness;
 import com.mygdx.arcademadness.GameObjects.Arrow;
 import com.mygdx.arcademadness.GameObjects.GameRoom;
@@ -30,6 +34,9 @@ public abstract class Character {
     Texture textureUp;
     Texture textureDown;
     Rectangle rect;
+    Sound rightRoomSound;
+    Sound wrongRoomSound;
+    Sound monsterEnterRoomSound;
 
     String direction;
     int age;
@@ -39,6 +46,7 @@ public abstract class Character {
     float speed = 1f;
     float speedX;
     float speedY;
+    long prevTime;
 
     float collisionCooldownTimer = 0;
     float collisionCooldown = 0f;
@@ -50,6 +58,10 @@ public abstract class Character {
         this.host = host;
 
         rect = new Rectangle(x, y, widthInPixels, heightInPixels);
+
+        rightRoomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/sharp_echo.wav"));
+        wrongRoomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/error.wav"));
+        monsterEnterRoomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/scream.wav"));
     }
 
     public Rectangle getRect() {
@@ -94,7 +106,29 @@ public abstract class Character {
         } else {
             batch.draw(textureDown, rect.getX(), rect.getY(), widthInPixels, heightInPixels);
         }
+
+        drawAge();
     }
+
+    public void startAgeDraw() {
+        prevTime = System.currentTimeMillis();
+    }
+
+    public void drawAge() {
+        if(TimeUtils.timeSinceMillis(prevTime) < 2500) {
+            if(age<8) {
+                host.getFont().setColor(Color.GREEN);
+            } else if(age<17) {
+                host.getFont().setColor(Color.ORANGE);
+            } else {
+                host.getFont().setColor(Color.RED);
+            }
+
+            host.getFont().draw(host.getHost().getBatch(), Integer.toString(age), getRect().getX() + 5, getRect().getY() + getRect().getHeight() * 2);
+        }
+    }
+
+
 
     public void move() {
         checkGameRoomCollision();
@@ -253,10 +287,13 @@ public abstract class Character {
 
                         if(this instanceof Monster) {
                             gameRoom.setNumberOfPeopleToZero();
+                            monsterEnterRoomSound.play(0.3f);
                         } else if(age < gameRoom.getAgeRestriction()) {
                             wrongRoom = true;
+                            wrongRoomSound.play(2);
                             gameRoom.addCharacter();
                         } else {
+                            rightRoomSound.play(2);
                             gameRoom.addCharacter();
                         }
                     }

@@ -14,10 +14,10 @@ public class Child extends Character {
         setAge(7);
         setDirection(direction);
 
-        textureLeft = new Texture("child_left.png");
-        textureRight = new Texture("child_right.png");
-        textureDown = new Texture("child_front.png");
-        textureUp = new Texture("child_back.png");
+        textureLeft = new Texture("CharacterTextures/child_left.png");
+        textureRight = new Texture("CharacterTextures/child_right.png");
+        textureDown = new Texture("CharacterTextures/child_front.png");
+        textureUp = new Texture("CharacterTextures/child_back.png");
 
     }
 }

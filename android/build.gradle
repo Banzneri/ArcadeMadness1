@@ -1,5 +1,5 @@
 android {
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '25.0.2'
     compileSdkVersion 20
     sourceSets {
         main {
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId "com.mygdx.arcademadness"
         minSdkVersion 8
-        targetSdkVersion 20
+        targetSdkVersion 24
     }
 }
 // called every time gradle gets executed, takes the native dependencies of

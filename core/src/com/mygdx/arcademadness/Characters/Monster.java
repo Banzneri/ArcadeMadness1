@@ -14,12 +14,12 @@ public class Monster extends Character {
     public Monster(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1/2f);
-        setAge(30);
+        setAge(420);
         setDirection(direction);
 
-        textureLeft = new Texture("monster_left.png");
-        textureRight = new Texture("monster_right.png");
-        textureDown = new Texture("monster_front.png");
-        textureUp = new Texture("monster_back.png");
+        textureLeft = new Texture("CharacterTextures/ghost_left.png");
+        textureRight = new Texture("CharacterTextures/ghost_right.png");
+        textureDown = new Texture("CharacterTextures/ghost_front.png");
+        textureUp = new Texture("CharacterTextures/ghost_back.png");
     }
 }

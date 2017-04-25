@@ -11,7 +11,7 @@ public class Level1 extends GameScreen {
     private TiledMap map;
 
     public Level1(ArcadeMadness host) {
-        super("am-semismall32.tmx", 5, host);
+        super("TiledMaps/level1small.tmx", 7, host);
     }
 
     @Override

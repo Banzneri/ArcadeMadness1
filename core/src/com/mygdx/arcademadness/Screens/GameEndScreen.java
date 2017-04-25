@@ -15,8 +15,8 @@ import com.mygdx.arcademadness.ArcadeMadness;
 public class GameEndScreen extends MenuScreen {
 
     public GameEndScreen(ArcadeMadness host) {
-        super(host, new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("play-again.png")))),
-                    new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("main-menu.png")))));
+        super(host, new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Buttons/play-again.png")))),
+                    new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Buttons/main-menu.png")))));
 
         addListeners();
     }
@@ -25,7 +25,7 @@ public class GameEndScreen extends MenuScreen {
         getImageButtonUp().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GameEndScreen.this.getHost().setScreen(new Level1(GameEndScreen.this.getHost()));
+                GameEndScreen.this.getHost().setScreen(getHost().getNextLevelObject());
             }
         });
 
