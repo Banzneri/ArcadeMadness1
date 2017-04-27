@@ -117,14 +117,14 @@ public abstract class Character {
     public void drawAge() {
         if(TimeUtils.timeSinceMillis(prevTime) < 2500) {
             if(age<8) {
-                host.getFont().setColor(Color.GREEN);
+                host.getFontAge().setColor(Color.GREEN);
             } else if(age<17) {
-                host.getFont().setColor(Color.ORANGE);
+                host.getFontAge().setColor(Color.ORANGE);
             } else {
-                host.getFont().setColor(Color.RED);
+                host.getFontAge().setColor(Color.RED);
             }
 
-            host.getFont().draw(host.getHost().getBatch(), Integer.toString(age), getRect().getX() + 5, getRect().getY() + getRect().getHeight() * 2);
+            host.getFontAge().draw(host.getHost().getBatch(), Integer.toString(age), getRect().getX() + 5, getRect().getY() + getRect().getHeight() * 2);
         }
     }
 
@@ -288,6 +288,8 @@ public abstract class Character {
                         if(this instanceof Monster) {
                             gameRoom.setNumberOfPeopleToZero();
                             monsterEnterRoomSound.play(0.3f);
+                        } else if(this instanceof SuperNerd) {
+                            gameRoom.fillRoom();
                         } else if(age < gameRoom.getAgeRestriction()) {
                             wrongRoom = true;
                             wrongRoomSound.play(2);

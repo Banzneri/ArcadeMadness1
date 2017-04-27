@@ -1,10 +1,12 @@
 package com.mygdx.arcademadness;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.arcademadness.Screens.PauseScreen;
 
 /**
  * Created by Banzneri on 17/03/2017.
@@ -12,15 +14,19 @@ import com.badlogic.gdx.math.Vector3;
 
 public class MyInputProcessor implements InputProcessor, GestureDetector.GestureListener {
     com.mygdx.arcademadness.Screens.GameScreen host;
-    private boolean isFling = false;
-    private boolean isTouchDown = false;
+
 
     public MyInputProcessor(com.mygdx.arcademadness.Screens.GameScreen host) {
         this.host = host;
+        Gdx.input.setCatchBackKey(true);
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE) {
+            this.host.setPaused(true);
+            this.host.getHost().setScreen(new PauseScreen(this.host.getHost(), this.host));
+        }
         return false;
     }
 

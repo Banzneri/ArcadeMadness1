@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.arcademadness.ArcadeMadness;
@@ -18,70 +19,74 @@ import com.mygdx.arcademadness.ArcadeMadness;
  * Created by Banzneri on 23/03/2017.
  */
 
+/**
+ * An abstract MenuScreen class, which implements the Screen interface. All the menu screen classes
+ * extend this class.
+ */
 public abstract class MenuScreen implements Screen {
+    public static final Skin SKIN = new Skin(Gdx.files.internal("skin/ui-skin.json"));
+
     private ArcadeMadness host;
     private Stage stage;
     private OrthographicCamera camera;
 
-    private Skin skin;
+    private TextButton textButtonUp;
+    private TextButton textButtonDown;
 
-    private ImageButton imageButtonUp;
-    private ImageButton imageButtonDown;
-
-    public MenuScreen(ArcadeMadness host, ImageButton imageButtonUp, ImageButton imageButtonDown) {
+    /**
+     * Constructor for the MenuScreen abstract class. Receives the ArcadeMadness host game object,
+     * and two ImageButton objects
+     *
+     * @param host ArcadeMadness object
+     */
+    public MenuScreen(ArcadeMadness host, TextButton textButtonUp, TextButton textButtonDown) {
         this.host = host;
-        this.imageButtonUp = imageButtonUp;
-        this.imageButtonDown = imageButtonDown;
+        this.textButtonUp = textButtonUp;
+        this.textButtonDown = textButtonDown;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
-        createUpButton();
-        createDownButton();
+        setButtons();
         initStage();
 
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Getter for the ArcadeMadness host object
+     *
+     * @return ArcadeMadness host object
+     */
     public ArcadeMadness getHost() {
         return host;
     }
 
-    public void setImageButtonUp(ImageButton button) {
-        imageButtonUp = button;
+    public TextButton getTextButtonUp() {
+        return textButtonUp;
     }
 
-    public void setImageButtonDown(ImageButton button) {
-        imageButtonDown = button;
+    public TextButton getTextButtonDown() {
+        return textButtonDown;
     }
 
-    public ImageButton getImageButtonUp() {
-        return imageButtonUp;
+    public void setButtons() {
+        textButtonUp.setWidth(300);
+        textButtonUp.setHeight(100);
+        textButtonDown.setWidth(300);
+        textButtonDown.setHeight(100);
+
+        textButtonUp.setPosition(ArcadeMadness.worldWidth / 2 - textButtonUp.getWidth() / 2, ArcadeMadness.worldHeight / 2);
+        textButtonDown.setPosition(ArcadeMadness.worldWidth / 2 - textButtonDown.getWidth() / 2, ArcadeMadness.worldHeight / 2 - 100);
     }
 
-    public ImageButton getImageButtonDown() {
-        return imageButtonDown;
-    }
-
+    /**
+     * Creates the stage, and adds the button actors to the stage.
+     */
     public void initStage() {
         stage =  new Stage(new FitViewport(ArcadeMadness.worldWidth, ArcadeMadness.worldHeight), host.getBatch());
-        stage.addActor(imageButtonUp);
-        stage.addActor(imageButtonDown);
+        stage.addActor(textButtonUp);
+        stage.addActor(textButtonDown);
     }
-
-    public void createUpButton() {
-        imageButtonUp.setSize(200, 100);
-        imageButtonUp.setPosition(ArcadeMadness.worldWidth / 2 - imageButtonUp.getWidth() / 2,
-                ArcadeMadness.worldHeight / 2);
-    }
-
-    public void createDownButton() {
-        imageButtonDown.setSize(200, 100);
-        imageButtonDown.setPosition(ArcadeMadness.worldWidth / 2 - imageButtonDown.getWidth() / 2,
-                ArcadeMadness.worldHeight / 2 - imageButtonDown.getHeight() - 20);
-    }
-
 
     @Override
     public void show() {

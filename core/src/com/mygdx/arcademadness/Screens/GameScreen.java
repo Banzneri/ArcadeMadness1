@@ -1,6 +1,5 @@
 package com.mygdx.arcademadness.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.input.GestureDetector;
@@ -24,13 +22,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.arcademadness.ArcadeMadness;
+import com.mygdx.arcademadness.Characters.SuperNerd;
 import com.mygdx.arcademadness.GameObjects.Arrow;
 import com.mygdx.arcademadness.Characters.Boy;
 import com.mygdx.arcademadness.Characters.Character;
@@ -41,9 +35,6 @@ import com.mygdx.arcademadness.Characters.Monster;
 import com.mygdx.arcademadness.MyInputProcessor;
 import com.mygdx.arcademadness.Characters.OldWoman;
 import com.mygdx.arcademadness.Characters.Woman;
-
-import org.w3c.dom.css.Rect;
-
 import java.util.ArrayList;
 
 /**
@@ -57,13 +48,15 @@ public abstract class GameScreen implements Screen {
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    private TmxMapLoader mapLoader;
 
-    private Texture logoTexture;
-    private Sprite lightTexture;
     private TextureRegion menuArrow;
     private BitmapFont font;
+    private BitmapFont fontAge;
     private Music music;
+    private Texture zeroErrors;
+    private Texture oneError;
+    private Texture twoErrors;
+    private Texture threeErrors;
 
     private float arrowX;
     private float arrowY;
@@ -90,34 +83,22 @@ public abstract class GameScreen implements Screen {
 
         initGameState();
 
-        logoTexture = new Texture("am.png");
-        lightTexture = new Sprite(new Texture("light.png"));
         Texture arrowSheet = new Texture("Arrows/arrows-gold-big.png");
         menuArrow = new TextureRegion(arrowSheet, 0, 32, 32, 32);
+        zeroErrors = new Texture("0errors.png");
+        oneError = new Texture("1errors.png");
+        twoErrors = new Texture("2errors.png");
+        threeErrors = new Texture("3errors.png");
         createFont();
-
         startMusic();
 
         helperArrow = new Arrow("up", 0, 0);
-        arrowList = new ArrayList<Arrow>();
-        entranceList = new ArrayList<Entrance>();
-        characterList = new ArrayList<Character>();
-        gameRoomList = new ArrayList<GameRoom>();
 
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load(mapName);
-        renderer = new OrthogonalTiledMapRenderer(map);
-
+        initLists();
+        initMap(mapName);
         addEntrances();
         addGameRooms();
-
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        GestureDetector gestureDetector = new GestureDetector(new MyInputProcessor(this));
-        InputProcessor inputProcessor = new MyInputProcessor(this);
-        multiplexer.addProcessor(inputProcessor);
-        multiplexer.addProcessor(gestureDetector);
-
-        Gdx.input.setInputProcessor(multiplexer);
+        initInputProcessor();
     }
 
     @Override
@@ -156,12 +137,41 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    public void initMap(String mapName) {
+        TmxMapLoader mapLoader = new TmxMapLoader();
+        map = mapLoader.load(mapName);
+        renderer = new OrthogonalTiledMapRenderer(map);
+    }
+
+    public void initLists() {
+        arrowList = new ArrayList<Arrow>();
+        entranceList = new ArrayList<Entrance>();
+        characterList = new ArrayList<Character>();
+        gameRoomList = new ArrayList<GameRoom>();
+    }
+
+    public void initInputProcessor() {
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        GestureDetector gestureDetector = new GestureDetector(new MyInputProcessor(this));
+        InputProcessor inputProcessor = new MyInputProcessor(this);
+        multiplexer.addProcessor(inputProcessor);
+        multiplexer.addProcessor(gestureDetector);
+
+        Gdx.input.setInputProcessor(multiplexer);
+    }
+
     public void createFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 20;
         parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
+
+        FreeTypeFontGenerator generatorAge = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameterAge = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameterAge.size = 25;
+        parameterAge.borderWidth = 2;
+        fontAge = generatorAge.generateFont(parameterAge);
     }
 
     public void startMusic() {
@@ -184,7 +194,15 @@ public abstract class GameScreen implements Screen {
             }
         }
 
-        getFont().draw(host.getBatch(), "Virheet: " + Integer.toString(mistakes), 12 * ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.TILE_SIZE_IN_PIXELS - 10);
+        switch (mistakes) {
+            case 0: host.getBatch().draw(zeroErrors, 11 * ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.TILE_SIZE_IN_PIXELS - 32, 100, 32);
+                    return;
+            case 1: host.getBatch().draw(oneError, 11 * ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.TILE_SIZE_IN_PIXELS - 32, 100, 32);
+                    return;
+            case 2: host.getBatch().draw(twoErrors, 11 * ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.TILE_SIZE_IN_PIXELS - 32, 100, 32);
+                    return;
+            case 3: host.getBatch().draw(threeErrors, 11 * ArcadeMadness.TILE_SIZE_IN_PIXELS, ArcadeMadness.TILE_SIZE_IN_PIXELS - 32, 100, 32);
+        }
     }
 
     public void drawTutorial() {
@@ -271,6 +289,10 @@ public abstract class GameScreen implements Screen {
         return font;
     }
 
+    public BitmapFont getFontAge() {
+        return fontAge;
+    }
+
     public float getMistakes() {
         return mistakes;
     }
@@ -339,19 +361,14 @@ public abstract class GameScreen implements Screen {
     }
 
     public void addGameRooms() {
-        MapLayer layer = getMap().getLayers().get("Rooms");
-        MapObjects rooms = layer.getObjects();
-        Array<RectangleMapObject> roomRectangleObjects = rooms.getByType(RectangleMapObject.class);
+        Array<RectangleMapObject> roomRectangleObjects = getObjectsFromLayer("Rooms");
 
         for(RectangleMapObject object : roomRectangleObjects) {
             gameRoomList.add(new GameRoom(object.getRectangle().getX(), object.getRectangle().getY(),
                             object.getRectangle().getWidth(), object.getRectangle().getHeight(), object.getName(), this));
         }
 
-        MapLayer numberLayer = getMap().getLayers().get("Numbers");
-        MapObjects numbers = numberLayer.getObjects();
-        Array<RectangleMapObject> numberObjects = numbers.getByType(RectangleMapObject.class);
-
+        Array<RectangleMapObject> numberObjects = getObjectsFromLayer("Numbers");
 
         for(RectangleMapObject object : numberObjects) {
 
@@ -361,6 +378,7 @@ public abstract class GameScreen implements Screen {
                     gameRoom.setNumberRectangle(rectangle);
                 }
             }
+
         }
     }
 
@@ -380,12 +398,18 @@ public abstract class GameScreen implements Screen {
             float y = entrance.getY();
 
             int rand = MathUtils.random(3);
-            int monsterRand = MathUtils.random(9);
+            int monsterRand = MathUtils.random(10);
+            int superNerdRand = MathUtils.random(2);
 
             if(monsterRand == 1) {
                 Monster monster = new Monster(x, y, this, entrance.getDirection());
                 characterList.add(monster);
-            } else {
+            } else if(superNerdRand == 1) {
+                SuperNerd superNerd = new SuperNerd(x, y, this, entrance.getDirection());
+                characterList.add(superNerd);
+            }
+
+            else {
 
                 if (rand == 0) {
                     Woman woman = new Woman(x, y, this, entrance.getDirection());
@@ -423,9 +447,7 @@ public abstract class GameScreen implements Screen {
      * Adds the entrance objects to the Entrance list
      */
     public void addEntrances() {
-        MapLayer layer = getMap().getLayers().get("Entrances");
-        MapObjects entrances = layer.getObjects();
-        Array<RectangleMapObject> roomRectangleObjects = entrances.getByType(RectangleMapObject.class);
+        Array<RectangleMapObject> roomRectangleObjects = getObjectsFromLayer("Entrances");
 
         for(RectangleMapObject object : roomRectangleObjects) {
             entranceList.add(new Entrance(object.getRectangle().getX(), object.getRectangle().getY(), this, object.getName()));
@@ -489,9 +511,7 @@ public abstract class GameScreen implements Screen {
             character.draw(host.getBatch());
         }
 
-        host.getBatch().draw(logoTexture, 0, ArcadeMadness.worldHeight + 20, ArcadeMadness.worldWidth, logoTexture.getHeight());
         drawMenu();
-        // drawLight();
 
         drawStretchArrow();
         drawNumberOfPeople();
@@ -612,12 +632,11 @@ public abstract class GameScreen implements Screen {
         }
     }
 
-    public Array<RectangleMapObject> getNumbersLayer() {
-        MapLayer layer = getMap().getLayers().get("Numbers");
-        MapObjects numbers = layer.getObjects();
-        Array<RectangleMapObject> roomRectangleObjects = numbers.getByType(RectangleMapObject.class);
+    public Array<RectangleMapObject> getObjectsFromLayer(String layerName) {
+        MapLayer layer = getMap().getLayers().get(layerName);
+        MapObjects objects = layer.getObjects();
 
-        return roomRectangleObjects;
+        return objects.getByType(RectangleMapObject.class);
     }
 
     public void drawAge(float x, float y) {

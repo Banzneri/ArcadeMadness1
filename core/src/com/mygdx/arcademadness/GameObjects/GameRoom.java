@@ -77,4 +77,12 @@ public class GameRoom {
     public void setNumberOfPeopleToZero() {
         numberOfPeople = 0;
     }
+
+    public void fillRoom() {
+        if(this.numberOfPeople < 4) {
+            numberOfPeople = 4;
+        } else {
+            numberOfPeople += 3;
+        }
+    }
 }

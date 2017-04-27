@@ -10,6 +10,13 @@ import com.mygdx.arcademadness.ArcadeMadness;
 public class Level3 extends GameScreen {
     private TiledMap map;
 
+    /**
+     * The constructor for the Level3 class. Uses the super constructor of the GameScreen class.
+     * The super constructor receives the corresponding tiled map, the spawn interval in seconds for the characters, and
+     * the ArcadeMadness host game object
+     *
+     * @param host The ArcadeMadness host game object
+     */
     public Level3(ArcadeMadness host) {
         super("TiledMaps/level3small.tmx", 5, host);
     }

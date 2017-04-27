@@ -10,6 +10,7 @@ import com.mygdx.arcademadness.Screens.IntroScreen;
 import com.mygdx.arcademadness.Screens.Level1;
 import com.mygdx.arcademadness.Screens.Level2;
 import com.mygdx.arcademadness.Screens.Level3;
+import com.mygdx.arcademadness.Screens.Level4;
 
 /**
  * The main game class
@@ -72,9 +73,10 @@ public class ArcadeMadness extends Game {
         switch (nextLevel) {
             case 1: return new Level1(this);
             case 2: return new Level2(this);
+            case 3: return new Level3(this);
         }
 
-        return new Level3(this);
+        return new Level4(this);
     }
 
 }
