@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="11" tilewidth="32" tileheight="32" nextobjectid="16">
+ <tileset firstgid="1" name="sheet_neon" tilewidth="32" tileheight="32" tilecount="56" columns="14">
+  <image source="../TileSheets/sheet_neon.png" width="448" height="128"/>
+ </tileset>
+ <layer name="Floors" width="18" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjYWBgYBnFo3gUo2AA0qQDGQ==
+  </data>
+ </layer>
+ <layer name="Graphics" width="18" height="11">
+  <data encoding="base64" compression="zlib">
+   eJylUdsNgDAI5MdH1LqAXaBdoO4/mSVyCSFUU73kEjjKtYVCRCvdOCTWjJWDU4vSg3yn/wgNn1SZJc5KszXtY7UvYO/y8AZgMT0WPLvZ0e1ftU9wzo/qbvbEDnp99L80PA04G9rb3uHp9QOtvfcCPpvkSWJNnt/k1DBX5BdiKQc1
+  </data>
+ </layer>
+ <objectgroup name="Rooms">
+  <object id="5" name="16" x="0" y="0" width="91" height="91"/>
+  <object id="6" name="3" x="484" y="1" width="89" height="90"/>
+  <object id="8" name="18" x="485" y="260" width="89" height="90"/>
+  <object id="11" name="7" x="1" y="259" width="91" height="91"/>
+ </objectgroup>
+ <layer name="Rooms" width="18" height="11">
+  <data encoding="base64" compression="zlib">
+   eJzdzMcJgFAURNFfgGCOYI5gjv2X5l3YgA9XDpzlXFcp5cFX76fDgIkSFWpBJ0aCFCs27IJOjwGj4Pv1tMffZ8GGI/gGCBEhQ45C0GnQosOEGYugc+DEhRscnQTz
+  </data>
+ </layer>
+ <objectgroup name="Entrances">
+  <object id="1" name="down" x="288" y="4" width="32" height="38"/>
+  <object id="2" name="right" x="4" y="160" width="39" height="32"/>
+  <object id="3" name="up" x="288" y="309" width="32" height="39"/>
+  <object id="4" name="left" x="531" y="160" width="40" height="32"/>
+ </objectgroup>
+ <objectgroup name="Numbers">
+  <object id="12" name="18" x="506" y="280" width="47" height="31"/>
+  <object id="13" name="3" x="506" y="27" width="46" height="28"/>
+  <object id="14" name="16" x="35" y="27" width="49" height="28"/>
+  <object id="15" name="7" x="35" y="283" width="46" height="28"/>
+ </objectgroup>
+</map>

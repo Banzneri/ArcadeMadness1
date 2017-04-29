@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="15" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="tileset_gutter" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="924" columns="33">
+  <image source="tileset_gutter.png" width="594" height="504"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGLgAABwgAAQ==
+  </data>
+ </layer>
+ <layer name="Floor" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhY0EYnPBB2ots9au+ovaP2jto7VOylp90DDQAgkLxx
+  </data>
+ </layer>
+ <layer name="Graphics" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJy7z8DAcB+K3WiM5yLh+0iY1mAw2HsKizwLFFOLjw5ODTJ7aQ0Gm72j8UtdMBLtjUXCtAYPkPBgsJfW9RGyvQAYwTR2
+  </data>
+ </layer>
+</map>

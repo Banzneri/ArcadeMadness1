@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="21" height="13" tilewidth="32" tileheight="32" nextobjectid="14">
+ <tileset firstgid="1" name="arcade-machine" tilewidth="32" tileheight="32" tilecount="117" columns="9">
+  <image source="arcade-machine.png" width="294" height="416"/>
+ </tileset>
+ <layer name="Machine" width="21" height="13">
+  <data encoding="base64" compression="zlib">
+   eJyd0bVSRFEURcGHu7u7uzsM7u7uzv/HdBUpM8E9VR2elewo+v+SSCaFVNJIJ4NMsuL8Jbpscsglj3wKKKSI4oBmCaWUUU4FlVRRTU1As5Y66mmgkSaaaaE1oNlGOx100kU3PfTSF9DsZ4BBhhhmhFHGGA9oTjDJFNPMMMsc8ywENGMsssQyK6yyxjobAc1Ntthmh1322OeAw4DmEceccMoZ51xwyVVA85obbrnjngceeeI5oPnCK2+888EnX3zzE9CMRX9bxJNoo1+MQhl4
+  </data>
+ </layer>
+ <objectgroup name="Screen">
+  <object id="9" x="209" y="70.5" width="252.5" height="180.5"/>
+ </objectgroup>
+ <objectgroup name="Buttons">
+  <object id="3" name="left-stick" x="216.5" y="331.5" width="19" height="15.5"/>
+  <object id="4" name="right-stick" x="433" y="333" width="23.5" height="14.5"/>
+  <object id="5" name="play-button" x="280.5" y="268.5" width="113" height="53"/>
+  <object id="6" name="settings-button" x="281" y="327" width="112.5" height="38.5"/>
+ </objectgroup>
+</map>

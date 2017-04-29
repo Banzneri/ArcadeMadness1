@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="9" tilewidth="32" tileheight="32" nextobjectid="6">
+ <tileset firstgid="1" name="am-tiles32" tilewidth="32" tileheight="32" tilecount="52" columns="13">
+  <image source="am-tiles32.png" width="416" height="128"/>
+ </tileset>
+ <layer name="Floors" width="15" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjY2BgYBvFoxgLBgBe6QMr
+  </data>
+ </layer>
+ <layer name="Graphics" width="15" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYMANWPHIYQPsBGhqA0L2YbOfVD9h00eOvdQE1LKPUFgAAKwcAKE=
+  </data>
+ </layer>
+ <objectgroup name="Rooms">
+  <object id="2" x="416" y="0" width="64" height="64"/>
+  <object id="3" x="416" y="224" width="64" height="64"/>
+  <object id="4" x="0" y="224" width="64" height="64"/>
+  <object id="5" x="0" y="0" width="64" height="64"/>
+ </objectgroup>
+</map>

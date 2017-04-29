@@ -61,14 +61,27 @@ public abstract class MenuScreen implements Screen {
         return host;
     }
 
+    /**
+     * Getter for the upper button
+     *
+     * @return the upper text button object
+     */
     public TextButton getTextButtonUp() {
         return textButtonUp;
     }
 
+    /**
+     * Getter for the lower button
+     *
+     * @return the lower text button object
+     */
     public TextButton getTextButtonDown() {
         return textButtonDown;
     }
 
+    /**
+     * Sets the width, height and position of the TextButtons.
+     */
     public void setButtons() {
         textButtonUp.setWidth(300);
         textButtonUp.setHeight(100);
