@@ -25,10 +25,10 @@
   </data>
  </layer>
  <objectgroup name="Entrances">
-  <object id="1" name="down" x="288" y="4" width="32" height="38"/>
-  <object id="2" name="right" x="4" y="160" width="39" height="32"/>
-  <object id="3" name="up" x="288" y="309" width="32" height="39"/>
-  <object id="4" name="left" x="531" y="160" width="40" height="32"/>
+  <object id="1" name="down" x="288" y="4" width="32" height="62"/>
+  <object id="2" name="right" x="4" y="160" width="63" height="32"/>
+  <object id="3" name="up" x="288" y="286" width="32" height="62"/>
+  <object id="4" name="left" x="511" y="160" width="60" height="32"/>
  </objectgroup>
  <objectgroup name="Numbers">
   <object id="12" name="18" x="506" y="280" width="47" height="31"/>

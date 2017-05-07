@@ -1,12 +1,13 @@
 package com.mygdx.arcademadness;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.mygdx.arcademadness.Screens.GameScreen;
-import com.mygdx.arcademadness.Screens.IntroScreen;
 import com.mygdx.arcademadness.Screens.Level1;
 import com.mygdx.arcademadness.Screens.Level2;
 import com.mygdx.arcademadness.Screens.Level3;
@@ -26,6 +27,9 @@ public class ArcadeMadness extends Game {
     public static float worldHeight = TILE_SIZE_IN_PIXELS * TILES_AMOUNT_HEIGHT;
 
     public int nextLevel;
+    public BitmapFont font;
+    public BitmapFont redFont;
+    public BitmapFont greenFont;
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
@@ -39,6 +43,7 @@ public class ArcadeMadness extends Game {
         camera.position.set(worldWidth / 2, worldHeight / 2, 0);
 
         nextLevel = 1;
+        createFont();
 
         introScreen =  new com.mygdx.arcademadness.Screens.IntroScreen(this);
         setScreen(introScreen);
@@ -59,13 +64,32 @@ public class ArcadeMadness extends Game {
     public void setNextLevel(int nextLevel) {
         this.nextLevel = nextLevel;
 
-        if(this.nextLevel > 3) {
-            this.nextLevel = 3;
+        if(this.nextLevel > 4) {
+            this.nextLevel = 4;
         }
 
         if(this.nextLevel < 1) {
             this.nextLevel = 1;
         }
+    }
+
+    public void createFont() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ka1.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 18;
+        parameter.color = Color.WHITE;
+        font = generator.generateFont(parameter);
+
+        parameter.color = Color.RED;
+        redFont = generator.generateFont(parameter);
+
+        parameter.color = Color.GREEN;
+        greenFont = generator.generateFont(parameter);
+        generator.dispose();
+    }
+
+    public BitmapFont getFont() {
+        return font;
     }
 
     public GameScreen getNextLevelObject() {

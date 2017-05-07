@@ -57,6 +57,7 @@ public abstract class GameScreen implements Screen {
     private Texture oneError;
     private Texture twoErrors;
     private Texture threeErrors;
+    private Texture introText;
 
     private float arrowX;
     private float arrowY;
@@ -67,7 +68,6 @@ public abstract class GameScreen implements Screen {
 
     private float characterSpawnTimer = 0;
     private float spawnInterval;
-    private float tutorialTimer = 0;
     private int mistakes = 0;
 
     private ArrayList<Arrow> arrowList;
@@ -89,6 +89,7 @@ public abstract class GameScreen implements Screen {
         oneError = new Texture("1errors.png");
         twoErrors = new Texture("2errors.png");
         threeErrors = new Texture("3errors.png");
+        introText = new Texture(Gdx.files.internal("tutorial-text.png"));
         createFont();
         startMusic();
 
@@ -143,6 +144,14 @@ public abstract class GameScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map);
     }
 
+    public void pauseMusic() {
+        music.pause();
+    }
+
+    public void continueMusic() {
+        music.play();
+    }
+
     public void initLists() {
         arrowList = new ArrayList<Arrow>();
         entranceList = new ArrayList<Entrance>();
@@ -167,7 +176,7 @@ public abstract class GameScreen implements Screen {
         parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
 
-        FreeTypeFontGenerator generatorAge = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+        FreeTypeFontGenerator generatorAge = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ka1.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameterAge = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameterAge.size = 25;
         parameterAge.borderWidth = 2;
@@ -209,9 +218,8 @@ public abstract class GameScreen implements Screen {
 
         if(!GAME_STARTED && host.FIRST_TIME) {
 
-            if(tutorialTimer < spawnInterval) {
-                tutorialTimer += Gdx.graphics.getDeltaTime();
-                host.getBatch().draw(new Texture(Gdx.files.internal("tutorial-text.png")), 0, 0, ArcadeMadness.worldWidth, ArcadeMadness.worldHeight);
+            if(!Gdx.input.isTouched()) {
+                host.getBatch().draw(introText, 0, 0, ArcadeMadness.worldWidth, ArcadeMadness.worldHeight);
             } else {
                 GAME_STARTED = true;
                 paused = false;
@@ -315,6 +323,11 @@ public abstract class GameScreen implements Screen {
 
     public void setPaused(boolean paused) {
         this.paused = paused;
+        if(paused) {
+           pauseMusic();
+        } else {
+            continueMusic();
+        }
     }
 
     public void addMistake() {
@@ -360,6 +373,10 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Iterates through the Rooms TiledMap layer, and creates GameRoom objects at the coordinates
+     * received from the Rooms layer's Rectangle objects.
+     */
     public void addGameRooms() {
         Array<RectangleMapObject> roomRectangleObjects = getObjectsFromLayer("Rooms");
 
@@ -382,6 +399,9 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Spawns characters using a timer. Uses the spawnRandomCharacter method
+     */
     public void spawnCharacter() {
         characterSpawnTimer += Gdx.graphics.getDeltaTime();
 
@@ -392,6 +412,11 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Spawns a random character at the given entrance
+     *
+     * @param entrance
+     */
     public void spawnRandomCharacter(Entrance entrance) {
         if(entrance.isFree()) {
             float x = entrance.getX();
@@ -399,7 +424,7 @@ public abstract class GameScreen implements Screen {
 
             int rand = MathUtils.random(3);
             int monsterRand = MathUtils.random(10);
-            int superNerdRand = MathUtils.random(2);
+            int superNerdRand = MathUtils.random(10);
 
             if(monsterRand == 1) {
                 Monster monster = new Monster(x, y, this, entrance.getDirection());
@@ -428,6 +453,11 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Removes characters from the game. Iterates through the characters and calls their isInRoom
+     * method to check if the character should be removed from play. Also checks if the character
+     * is in a wrong room, and if so, adds a mistake
+     */
     public void removeCharacters() {
         ArrayList<Character> removeCharacter = new ArrayList<Character>();
 
@@ -463,6 +493,10 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Draws the number of the people in the room. Iterates through all the game rooms, and calls
+     * game room's drawNumberOfPeople method
+     */
     public void drawNumberOfPeople() {
         for(GameRoom gameRoom : gameRoomList) {
             gameRoom.drawNumberOfPeople();
@@ -490,6 +524,13 @@ public abstract class GameScreen implements Screen {
         return false;
     }
 
+    /**
+     * Checks if there is a game room in the given coordinates
+     *
+     * @param x the x coordinate of the room
+     * @param y the y coordinate of the room
+     * @return true if there is a game room in the given coordinates, false otherwise
+     */
     public boolean isGameRoom(float x, float y) {
         for(GameRoom gameRoom: gameRoomList) {
             if(x >= gameRoom.getX() && x <= gameRoom.getX() + 3 * ArcadeMadness.TILE_SIZE_IN_PIXELS && y >= gameRoom.getY() && y <= gameRoom.getY() + 3 * ArcadeMadness.TILE_SIZE_IN_PIXELS) {
@@ -519,7 +560,8 @@ public abstract class GameScreen implements Screen {
 
 
     /**
-     * Draws the stretching helper arrow. This should probably go to the Arrow class.
+     * Draws the stretching helper arrow. This should probably go to the Arrow class, but it's going
+     * to stay here now
      */
     public void drawStretchArrow() {
         // Makes the arrow transparent
@@ -576,6 +618,9 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Removes all arrows. Used when the player double taps the screen
+     */
     public void removeAllArrows() {
         ArrayList<Arrow> toRemove = new ArrayList<Arrow>();
 
@@ -586,6 +631,11 @@ public abstract class GameScreen implements Screen {
         arrowList.removeAll(toRemove);
     }
 
+    /**
+     * Removes an arrow in the given coordinates
+     * @param x the x coordinate of the arrow
+     * @param y the y coordinate of the arrow
+     */
     public void removeArrow(float x, float y) {
         Vector3 touchPos = new Vector3(x, y, 0);
 
@@ -605,6 +655,11 @@ public abstract class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Iterates through the gamerooms and checks if the victory condition is met
+     *
+     * @return true if victory condition is met, false otherwise
+     */
     public boolean isWin() {
         for(GameRoom gameRoom : gameRoomList) {
             if(gameRoom.getNumberOfPeople() < 4) {
@@ -615,23 +670,35 @@ public abstract class GameScreen implements Screen {
         return true;
     }
 
+    /**
+     * Checks if the player has won, if so, sets the winning game end screen. Uses isWin() method for
+     * checking victory condition
+     */
     public void checkVictory() {
         if(isWin()) {
             Gdx.app.log("", "You win!");
             host.setNextLevel(host.getNextLevel() + 1);
             dispose();
-            getHost().setScreen(new GameEndScreen(getHost()));
+            getHost().setScreen(new GameEndScreen(getHost(), true));
         }
     }
 
+    /**
+     * Checks if the player has lost, if so, sets the losing game end screen
+     */
     public void checkLose() {
         if(mistakes >= 3) {
             Gdx.app.log("", "You lose!");
-            this.dispose();
-            getHost().setScreen(new GameEndScreen(getHost()));
+            dispose();
+            getHost().setScreen(new GameEndScreen(getHost(), false));
         }
     }
 
+    /**
+     * Returns Rectangle map objects from a layer with the given layerName string
+     * @param layerName
+     * @return
+     */
     public Array<RectangleMapObject> getObjectsFromLayer(String layerName) {
         MapLayer layer = getMap().getLayers().get(layerName);
         MapObjects objects = layer.getObjects();
@@ -639,6 +706,11 @@ public abstract class GameScreen implements Screen {
         return objects.getByType(RectangleMapObject.class);
     }
 
+    /**
+     * Draws the age of the characters on top of their heads in the given coordinates
+     * @param x the x position of the age text
+     * @param y the y position of the age text
+     */
     public void drawAge(float x, float y) {
         Vector3 vector3 = new Vector3(x, y, 0);
         host.getCamera().unproject(vector3);

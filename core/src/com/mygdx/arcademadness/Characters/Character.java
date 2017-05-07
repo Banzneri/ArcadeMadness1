@@ -116,15 +116,22 @@ public abstract class Character {
 
     public void drawAge() {
         if(TimeUtils.timeSinceMillis(prevTime) < 2500) {
-            if(age<8) {
+            if(age<16) {
                 host.getFontAge().setColor(Color.GREEN);
-            } else if(age<17) {
+            } else if(age<18) {
                 host.getFontAge().setColor(Color.ORANGE);
             } else {
                 host.getFontAge().setColor(Color.RED);
             }
 
-            host.getFontAge().draw(host.getHost().getBatch(), Integer.toString(age), getRect().getX() + 5, getRect().getY() + getRect().getHeight() * 2);
+            if(age < 9) {
+                host.getFontAge().draw(host.getHost().getBatch(), Integer.toString(age), getRect().getX(), getRect().getY() + getRect().getHeight() * 2.3f);
+            } else if(age > 100) {
+                host.getFontAge().draw(host.getHost().getBatch(), Integer.toString(age), getRect().getX() - 20, getRect().getY() + getRect().getHeight() * 2.3f);
+            }
+            else {
+                host.getFontAge().draw(host.getHost().getBatch(), Integer.toString(age), getRect().getX() - 10, getRect().getY() + getRect().getHeight() * 2.3f);
+            }
         }
     }
 

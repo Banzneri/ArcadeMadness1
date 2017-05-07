@@ -12,24 +12,17 @@ public class Boy extends Character {
     public Boy(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1f);
-        setAge(16);
+        setAge(MathUtils.random(13, 17));
         setDirection(direction);
-        setRandomTexture();
+        setTexture();
     }
 
-    public void setRandomTexture() {
-        int rand = MathUtils.random(0, 1);
+    public void setTexture() {
+        int rand = MathUtils.random(1, 4);
 
-        if(rand == 0) {
-            textureLeft = new Texture("CharacterTextures/jonne_left.png");
-            textureRight = new Texture("CharacterTextures/jonne_right.png");
-            textureDown = new Texture("CharacterTextures/jonne_front.png");
-            textureUp = new Texture("CharacterTextures/jonne_back.png");
-        } else {
-            textureLeft = new Texture("CharacterTextures/jonna_left.png");
-            textureRight = new Texture("CharacterTextures/jonna_right.png");
-            textureDown = new Texture("CharacterTextures/jonne_front.png");
-            textureUp = new Texture("CharacterTextures/jonna_back.png");
-        }
+        textureLeft = new Texture("CharacterTextures/jonne_" + rand + "_left.png");
+        textureRight = new Texture("CharacterTextures/jonne_" + rand + "_right.png");
+        textureDown = new Texture("CharacterTextures/jonne_" + rand + "_front.png");
+        textureUp = new Texture("CharacterTextures/jonne_" + rand + "_back.png");
     }
 }

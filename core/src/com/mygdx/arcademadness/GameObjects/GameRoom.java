@@ -1,7 +1,6 @@
 package com.mygdx.arcademadness.GameObjects;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -9,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
  */
 
 /**
- * The class for the game rooms.
+ * The class for the game rooms. Holds data about width, height, position and age restriction
  */
 public class GameRoom {
     private int numberOfPeople;
@@ -29,7 +28,7 @@ public class GameRoom {
      * @param y coordinate y of the room
      * @param width the width of the room
      * @param height the height of the room
-     * @param ageRestriction the age restriction of the rrom
+     * @param ageRestriction the age restriction of the room
      * @param host the GameScreen host object
      */
     public GameRoom(float x, float y, float width, float height, String ageRestriction, com.mygdx.arcademadness.Screens.GameScreen host) {

@@ -1,5 +1,6 @@
 package com.mygdx.arcademadness.Screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -27,9 +28,26 @@ public class GameEndScreen extends MenuScreen {
      *
      * @param host ArcadeMadness host object
      */
-    public GameEndScreen(ArcadeMadness host) {
-        super(host, new TextButton("Play again", MenuScreen.SKIN),
-                    new TextButton("Return to main menu", MenuScreen.SKIN));
+    public GameEndScreen(ArcadeMadness host, Boolean won) {
+        super(host);
+
+        if(won) {
+            setWon("won");
+            setTitleText("Level " + (host.getNextLevel() - 1));
+            setSubtitleText("You won!");
+
+            setUpperButtonText("Next level");
+            setLowerButtonText("Return to main menu");
+        } else {
+            setWon("lost");
+            setTitleText("Level " + host.getNextLevel());
+            setSubtitleText("You lost!");
+
+            setUpperButtonText("Try again");
+            setLowerButtonText("Return to main menu");
+        }
+
+
 
         addListeners();
     }

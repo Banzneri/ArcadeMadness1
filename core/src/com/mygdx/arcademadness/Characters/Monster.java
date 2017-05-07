@@ -1,6 +1,7 @@
 package com.mygdx.arcademadness.Characters;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 
 /**
  * Created by Banzneri on 21/02/2017.
@@ -14,7 +15,7 @@ public class Monster extends Character {
     public Monster(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1/2f);
-        setAge(420);
+        setAge(MathUtils.random(200, 1000));
         setDirection(direction);
 
         textureLeft = new Texture("CharacterTextures/ghost_left.png");

@@ -1,15 +1,5 @@
 {
-com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	font: {
-		file: font-export.fnt
-	}
-	font-over: {
-		file: font-over-export.fnt
-	}
-	font-pressed: {
-		file: font-pressed-export.fnt
-	}
-}
+
 com.badlogic.gdx.graphics.Color: {
 	color: {
 		r: 0.14117648
@@ -282,8 +272,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: font
-		fontColor: text
+        
 	}
 	over: {
 		font: font-over

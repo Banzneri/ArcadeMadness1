@@ -26,8 +26,8 @@ public class SuperNerd extends Character {
     @Override
     public void drawAge() {
         if(TimeUtils.timeSinceMillis(prevTime) < 2500) {
-            host.getFontAge().setColor(Color.RED);
-            host.getFontAge().draw(host.getHost().getBatch(), "MEGANERD", getRect().getX() - 50, getRect().getY() + getRect().getHeight() * 2);
+            host.getFontAge().setColor(Color.GOLD);
+            host.getFontAge().draw(host.getHost().getBatch(), "MEGANERD", getRect().getX() - 73, getRect().getY() + getRect().getHeight() * 2.3f);
         }
     }
 }
