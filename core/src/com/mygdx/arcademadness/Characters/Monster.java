@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
  *
  */
 public class Monster extends Character {
+    private int timeToLiveInSeconds = 20;
 
     public Monster(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
@@ -22,5 +23,9 @@ public class Monster extends Character {
         textureRight = new Texture("CharacterTextures/ghost_right.png");
         textureDown = new Texture("CharacterTextures/ghost_front.png");
         textureUp = new Texture("CharacterTextures/ghost_back.png");
+    }
+
+    public boolean hasExpired() {
+        return getTimeInPlay() > timeToLiveInSeconds;
     }
 }

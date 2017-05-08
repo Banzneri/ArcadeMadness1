@@ -12,7 +12,7 @@ public class Child extends Character {
     public Child(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1f);
-        setAge(MathUtils.random(3, 12));
+        setAge(MathUtils.random(3, 15));
         setDirection(direction);
 
         setTexture();

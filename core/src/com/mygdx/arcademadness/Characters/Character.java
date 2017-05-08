@@ -42,6 +42,7 @@ public abstract class Character {
     int age;
     Boolean isInRoom = false;
     Boolean wrongRoom = false;
+    float timeInPlay = 0;
 
     float speed = 1f;
     float speedX;
@@ -62,6 +63,10 @@ public abstract class Character {
         rightRoomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/sharp_echo.wav"));
         wrongRoomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/error.wav"));
         monsterEnterRoomSound = Gdx.audio.newSound(Gdx.files.internal("sounds/scream.wav"));
+    }
+
+    public float getTimeInPlay() {
+        return timeInPlay;
     }
 
     public Rectangle getRect() {
@@ -98,13 +103,13 @@ public abstract class Character {
 
     public void draw(SpriteBatch batch) {
         if(direction.equals("right")) {
-            batch.draw(textureRight, rect.getX(), rect.getY(), widthInPixels, heightInPixels);
+            batch.draw(textureRight, rect.getX(), rect.getY() + 5, widthInPixels, heightInPixels);
         } else if(direction.equals("left")) {
-            batch.draw(textureLeft, rect.getX(), rect.getY(), widthInPixels, heightInPixels);
+            batch.draw(textureLeft, rect.getX(), rect.getY() + 5, widthInPixels, heightInPixels);
         } else if(direction.equals("up")){
-            batch.draw(textureUp, rect.getX(), rect.getY(), widthInPixels, heightInPixels);
+            batch.draw(textureUp, rect.getX(), rect.getY() + 5, widthInPixels, heightInPixels);
         } else {
-            batch.draw(textureDown, rect.getX(), rect.getY(), widthInPixels, heightInPixels);
+            batch.draw(textureDown, rect.getX(), rect.getY() + 5, widthInPixels, heightInPixels);
         }
 
         drawAge();
@@ -170,6 +175,8 @@ public abstract class Character {
             rect.setY(ArcadeMadness.TILE_SIZE_IN_PIXELS);
         }
         checkArrows();
+
+        timeInPlay += Gdx.graphics.getDeltaTime();
     }
 
     public void turnRight() {

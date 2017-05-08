@@ -32,10 +32,13 @@ import com.mygdx.arcademadness.Characters.Child;
 import com.mygdx.arcademadness.GameObjects.Entrance;
 import com.mygdx.arcademadness.GameObjects.GameRoom;
 import com.mygdx.arcademadness.Characters.Monster;
+import com.mygdx.arcademadness.GifDecoder;
 import com.mygdx.arcademadness.MyInputProcessor;
 import com.mygdx.arcademadness.Characters.OldWoman;
 import com.mygdx.arcademadness.Characters.Woman;
 import java.util.ArrayList;
+
+import sun.misc.IOUtils;
 
 /**
  * Created by Banzneri on 16/03/2017.
@@ -43,8 +46,7 @@ import java.util.ArrayList;
 
 public abstract class GameScreen implements Screen {
 
-    public boolean GAME_STARTED;
-    public boolean paused;
+    public boolean paused = false;
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -81,8 +83,6 @@ public abstract class GameScreen implements Screen {
         this.spawnInterval = spawnInterval;
         this.host = host;
 
-        initGameState();
-
         Texture arrowSheet = new Texture("Arrows/arrows-gold-big.png");
         menuArrow = new TextureRegion(arrowSheet, 0, 32, 32, 32);
         zeroErrors = new Texture("0errors.png");
@@ -107,34 +107,25 @@ public abstract class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        host.getCamera().update();
-        renderer.render();
-        renderer.setView(host.getCamera());
-        host.getBatch().setProjectionMatrix(host.getCamera().combined);
-
-        host.getBatch().begin();
-        Color c = host.getBatch().getColor();
-        host.getBatch().setColor(c.r, c.g, c.b, 1f); // set alpha to 1
-        drawAll();
-        host.getBatch().end();
-
         if(!paused) {
+            host.getCamera().update();
+            host.getBatch().setProjectionMatrix(host.getCamera().combined);
+
+            renderer.render();
+            renderer.setView(host.getCamera());
+
+            host.getBatch().begin();
+            Color c = host.getBatch().getColor();
+            host.getBatch().setColor(c.r, c.g, c.b, 1f); // set alpha to 1
+
+            drawAll();
             checkVictory();
             checkLose();
-
             removeCharacters();
             spawnCharacter();
             moveAll();
-        }
-    }
-
-    public void initGameState() {
-        if(host.FIRST_TIME) {
-            GAME_STARTED = false;
-            paused = true;
-        } else {
-            GAME_STARTED = true;
-            paused = false;
+            removeGhosts();
+            host.getBatch().end();
         }
     }
 
@@ -214,20 +205,6 @@ public abstract class GameScreen implements Screen {
         }
     }
 
-    public void drawTutorial() {
-
-        if(!GAME_STARTED && host.FIRST_TIME) {
-
-            if(!Gdx.input.isTouched()) {
-                host.getBatch().draw(introText, 0, 0, ArcadeMadness.worldWidth, ArcadeMadness.worldHeight);
-            } else {
-                GAME_STARTED = true;
-                paused = false;
-                host.FIRST_TIME = false;
-            }
-        }
-    }
-
     @Override
     public void dispose () {
         music.dispose();
@@ -240,6 +217,18 @@ public abstract class GameScreen implements Screen {
         for (Character character : characterList) {
             character.move();
         }
+    }
+
+    public void removeGhosts() {
+        ArrayList<Character> toRemove = new ArrayList<Character>();
+
+        for (Character character : characterList) {
+            if(character instanceof Monster && ((Monster) character).hasExpired()) {
+                toRemove.add(character);
+            }
+        }
+
+        characterList.removeAll(toRemove);
     }
 
     public ArcadeMadness getHost() {
@@ -545,7 +534,6 @@ public abstract class GameScreen implements Screen {
      * Handles all the drawing (except for the Tiled map)
      */
     public void drawAll() {
-        drawTutorial();
         drawArrows();
 
         for(Character character : characterList) {
@@ -553,7 +541,6 @@ public abstract class GameScreen implements Screen {
         }
 
         drawMenu();
-
         drawStretchArrow();
         drawNumberOfPeople();
     }

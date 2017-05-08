@@ -1,6 +1,7 @@
 package com.mygdx.arcademadness.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -32,6 +33,7 @@ public class MainMenuScreen implements Screen {
     TiledMapRenderer renderer;
     ArcadeMadness host;
     Texture chosenLevel;
+    Texture lock;
     int currentLevel = 1;
     ImageButton playButton;
     ImageButton settingsButton;
@@ -44,6 +46,7 @@ public class MainMenuScreen implements Screen {
     float screenHeight;
     Sound menuSound;
     Sound playSound;
+    int unlockedLevels;
 
     public MainMenuScreen(ArcadeMadness host) {
         this.host = host;
@@ -51,6 +54,7 @@ public class MainMenuScreen implements Screen {
         map = mapLoader.load("main-menu-wider.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
         chosenLevel = new Texture(Gdx.files.internal("LevelPreviews/level1-preview.png"));
+        lock = new Texture(Gdx.files.internal("locked.png"));
 
         menuSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click_2.wav"));
         playSound = Gdx.audio.newSound(Gdx.files.internal("sounds/misc_menu_4.wav"));
@@ -59,6 +63,8 @@ public class MainMenuScreen implements Screen {
         setButtons();
         addListeners();
         initStage();
+        initPreferences();
+        checkUnlockedLevels();
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -67,6 +73,25 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
 
+    }
+
+    public void checkUnlockedLevels() {
+        Preferences preferences = Gdx.app.getPreferences("ArcadeMadnessPrefs");
+        unlockedLevels = preferences.getInteger("unlockedLevel");
+        Gdx.app.log("", Integer.toString(unlockedLevels));
+        preferences.flush();
+    }
+
+    public void initPreferences() {
+        Preferences preferences = Gdx.app.getPreferences("ArcadeMadnessPrefs");
+
+        if(!preferences.contains("unlockedLevel")) {
+            preferences.putInteger("unlockedLevel", 1);
+            preferences.putBoolean("soundOn", true);
+            preferences.putBoolean("tutorials", true);
+        }
+
+        preferences.flush();
     }
 
     @Override
@@ -84,6 +109,9 @@ public class MainMenuScreen implements Screen {
 
         host.getBatch().begin();
         drawChosenLevel();
+        if(currentLevel > unlockedLevels) {
+            drawLock();
+        }
         host.getBatch().end();
     }
 
@@ -157,6 +185,10 @@ public class MainMenuScreen implements Screen {
         host.getBatch().draw(chosenLevel, screenX, screenY, screenWidth, screenHeight);
     }
 
+    public void drawLock() {
+        host.getBatch().draw(lock, screenX, screenY, screenWidth, screenHeight);
+    }
+
     public void initStage() {
         stage =  new Stage(new FitViewport(ArcadeMadness.worldWidth, ArcadeMadness.worldHeight), host.getBatch());
         stage.addActor(playButton);
@@ -168,13 +200,15 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(currentLevel == 1) {
+                if(host.isFirstTime() && currentLevel <= unlockedLevels) {
+                    MainMenuScreen.this.host.setScreen(new TutorialScreen(host));
+                } else if(currentLevel == 1 && unlockedLevels >= 1) {
                     MainMenuScreen.this.host.setScreen(new Level1(MainMenuScreen.this.host));
-                } else if(currentLevel == 2) {
+                } else if(currentLevel == 2 && unlockedLevels >= 2) {
                     MainMenuScreen.this.host.setScreen(new Level2(MainMenuScreen.this.host));
-                } else if(currentLevel == 3) {
+                } else if(currentLevel == 3 && unlockedLevels >= 3) {
                     MainMenuScreen.this.host.setScreen(new Level3(MainMenuScreen.this.host));
-                } else if(currentLevel == 4) {
+                } else if(currentLevel == 4 && unlockedLevels >= 4) {
                     MainMenuScreen.this.host.setScreen(new Level4(MainMenuScreen.this.host));
                 }
 

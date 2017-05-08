@@ -12,7 +12,7 @@ public class Woman extends Character {
     public Woman(float x, float y, com.mygdx.arcademadness.Screens.GameScreen host, String direction) {
         super(x, y, host);
         setSpeed(1f);
-        setAge(MathUtils.random(16, 45));
+        setAge(MathUtils.random(18, 45));
         setDirection(direction);
 
         setTexture();

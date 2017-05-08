@@ -1,5 +1,7 @@
 package com.mygdx.arcademadness.Screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -36,6 +38,8 @@ public class GameEndScreen extends MenuScreen {
             setTitleText("Level " + (host.getNextLevel() - 1));
             setSubtitleText("You won!");
 
+            updatePreferences();
+
             setUpperButtonText("Next level");
             setLowerButtonText("Return to main menu");
         } else {
@@ -70,5 +74,11 @@ public class GameEndScreen extends MenuScreen {
                 GameEndScreen.this.getHost().setScreen(new MainMenuScreen(GameEndScreen.this.getHost()));
             }
         });
+    }
+
+    public void updatePreferences() {
+        Preferences preferences = Gdx.app.getPreferences("ArcadeMadnessPrefs");
+        preferences.putInteger("unlockedLevel", getHost().getNextLevel());
+        preferences.flush();
     }
 }
