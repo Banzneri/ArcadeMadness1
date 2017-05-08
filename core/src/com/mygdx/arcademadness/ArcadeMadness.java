@@ -35,6 +35,7 @@ public class ArcadeMadness extends Game {
     public BitmapFont greenFont;
     public Animation<TextureRegion> introAnim1;
     public Animation<TextureRegion> introAnim2;
+    public Animation<TextureRegion> logo;
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
@@ -61,6 +62,10 @@ public class ArcadeMadness extends Game {
 
     public Animation<TextureRegion> getIntroAnim2() {
         return introAnim2;
+    }
+
+    public Animation<TextureRegion> getLogo() {
+        return logo;
     }
 
     public OrthographicCamera getCamera() {
@@ -94,6 +99,7 @@ public class ArcadeMadness extends Game {
     public void createIntroAnimations() {
         introAnim1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("tutorial1-en.gif").read());
         introAnim2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("tutorial2-en.gif").read());
+        logo = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("logo.gif").read());
     }
 
     public void createFont() {
@@ -118,6 +124,16 @@ public class ArcadeMadness extends Game {
     public GameScreen getNextLevelObject() {
 
         switch (nextLevel) {
+            case 1: return new Level1(this);
+            case 2: return new Level2(this);
+            case 3: return new Level3(this);
+        }
+
+        return new Level4(this);
+    }
+
+    public GameScreen getLevelByNumber(int level) {
+        switch (level) {
             case 1: return new Level1(this);
             case 2: return new Level2(this);
             case 3: return new Level3(this);

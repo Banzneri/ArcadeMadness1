@@ -16,6 +16,7 @@ import com.mygdx.arcademadness.ArcadeMadness;
 
 public class TutorialScreen implements Screen {
     private ArcadeMadness host;
+    private int level;
 
     private boolean pressed = false;
     private boolean pressedTwice = false;
@@ -27,8 +28,9 @@ public class TutorialScreen implements Screen {
     private float frameCounter1 = 0;
     private float frameCounter2 = 0;
 
-    public TutorialScreen(ArcadeMadness host) {
+    public TutorialScreen(ArcadeMadness host, int level) {
         this.host = host;
+        this.level = level;
         tutorialAnim1 = host.getIntroAnim1();
         tutorialAnim2 = host.getIntroAnim2();
 
@@ -60,7 +62,7 @@ public class TutorialScreen implements Screen {
 
         if(pressedThrice) {
             updatePreferences();
-            host.setScreen(new Level1(host));
+            host.setScreen(host.getNextLevelObject());
         }
 
         host.getBatch().end();

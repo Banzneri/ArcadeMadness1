@@ -21,11 +21,10 @@ import com.mygdx.arcademadness.ArcadeMadness;
 public class IntroScreen implements Screen{
     private ArcadeMadness host;
     private OrthographicCamera camera;
-    private Texture logo;
+    private float counter = 0;
 
     public IntroScreen(ArcadeMadness host) {
         this.host = host;
-        logo = new Texture("Am Logo.png");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
     }
@@ -38,19 +37,24 @@ public class IntroScreen implements Screen{
     @Override
     public void render(float delta) {
         host.getBatch().setProjectionMatrix(camera.combined);
+        camera.update();
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        host.getBatch().begin();
-        host.getBatch().draw(logo, 0, 0);
-        host.getBatch().end();
+        drawLogo();
 
         if(Gdx.input.isTouched()) {
             host.setScreen(new MainMenuScreen(host));
         }
     }
 
+    public void drawLogo() {
+        counter += Gdx.graphics.getDeltaTime();
+        host.getBatch().begin();
+        host.getBatch().draw(host.getLogo().getKeyFrame(counter, true), ArcadeMadness.worldWidth / 2 - 100, ArcadeMadness.worldHeight / 2 - 120, 400, 400);
+        host.getBatch().end();
+    }
     @Override
     public void resize(int width, int height) {
 

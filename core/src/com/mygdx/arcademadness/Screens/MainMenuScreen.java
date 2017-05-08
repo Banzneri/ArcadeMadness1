@@ -201,7 +201,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(host.isFirstTime() && currentLevel <= unlockedLevels) {
-                    MainMenuScreen.this.host.setScreen(new TutorialScreen(host));
+                    MainMenuScreen.this.host.setScreen(new TutorialScreen(host, currentLevel));
                 } else if(currentLevel == 1 && unlockedLevels >= 1) {
                     MainMenuScreen.this.host.setScreen(new Level1(MainMenuScreen.this.host));
                 } else if(currentLevel == 2 && unlockedLevels >= 2) {
